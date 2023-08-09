@@ -1,4 +1,8 @@
+<img align="left" width="82" height="82" src="assets/logo.svg">
+
 # stormtrooper
+
+<br>
 Transformer-based zero/few shot learning components for scikit-learn pipelines.
 
 ## Example
