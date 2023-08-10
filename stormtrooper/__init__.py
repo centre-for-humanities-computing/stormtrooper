@@ -1,1 +1,3 @@
+from stormtrooper.generative import GenerativeZeroShotClassifier
+from stormtrooper.text2text import Text2TextZeroShotClassifier
 from stormtrooper.zero_shot import ZeroShotClassifier

@@ -2,7 +2,7 @@
 from typing import Iterable
 
 import numpy as np
-from sklearn.base import BaseEstimator, ClassifierMixin, TransformerMixin
+from sklearn.base import BaseEstimator, ClassifierMixin
 from sklearn.exceptions import NotFittedError
 from thefuzz import process
 from tqdm import tqdm
@@ -17,9 +17,9 @@ with the class label in the same format as provided.
 """
 
 
-class TextToTextZeroShotClassifier(BaseEstimator, ClassifierMixin):
+class Text2TextZeroShotClassifier(BaseEstimator, ClassifierMixin):
     """Scikit-learn compatible zero shot classification
-    with generative language models.
+    with seq2seq language models.
 
     Parameters
     ----------
