@@ -149,8 +149,11 @@ class GenerativeZeroShotClassifier(BaseEstimator, ClassifierMixin):
         if self.progress_bar:
             X = tqdm(X)
         for text in X:
+            prompt = self.prompt.format(
+                X=text, classes=", ".join(self.classes_)
+            )
             inputs = self.tokenizer(
-                self.prompt.format(X=text, classes=", ".join(self.classes_)),
+                prompt,
                 return_tensors="pt",
             )
             output = self.model.generate(
@@ -159,7 +162,7 @@ class GenerativeZeroShotClassifier(BaseEstimator, ClassifierMixin):
             generated = self.tokenizer.decode(
                 output[0], skip_special_tokens=True
             )
-            label = generated.removeprefix(self.prompt)
+            label = generated.removeprefix(prompt)
             if self.fuzzy_match and label not in self.classes_:
                 label, _ = process.extractOne(label, self.classes_)
             pred.append(label)
