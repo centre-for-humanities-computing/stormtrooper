@@ -4,6 +4,7 @@ from typing import Iterable
 import numpy as np
 from sklearn.base import BaseEstimator, ClassifierMixin
 from sklearn.exceptions import NotFittedError
+from thefuzz import process
 from tqdm import tqdm
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
@@ -49,6 +50,12 @@ class GenerativeZeroShotClassifier(BaseEstimator, ClassifierMixin):
             {X}.
         ### Assistant:
         '''
+    max_new_tokens: int, default 256
+        Maximum number of tokens the model should generate.
+    fuzzy_match: bool, default True
+        Indicates whether the output lables should be fuzzy matched
+        to the learnt class labels.
+        This is useful when the model isn't giving specific enough answers.
     progress_bar: bool, default True
         Indicates whether a progress bar should be shown.
 
@@ -62,6 +69,8 @@ class GenerativeZeroShotClassifier(BaseEstimator, ClassifierMixin):
         self,
         model_name: str = "upstage/Llama-2-70b-instruct-v2",
         prompt: str = default_prompt,
+        max_new_tokens: int = 256,
+        fuzzy_match: bool = True,
         progress_bar: bool = True,
     ):
         self.model_name = model_name
@@ -69,7 +78,8 @@ class GenerativeZeroShotClassifier(BaseEstimator, ClassifierMixin):
         self.tokenizer = AutoTokenizer.from_pretrained(model_name)
         self.model = AutoModelForCausalLM.from_pretrained(model_name)
         self.classes_ = None
-        self.pandas_out = False
+        self.max_new_tokens = max_new_tokens
+        self.fuzzy_match = fuzzy_match
         self.progress_bar = progress_bar
 
     def fit(self, X, y: Iterable[str]):
@@ -143,8 +153,14 @@ class GenerativeZeroShotClassifier(BaseEstimator, ClassifierMixin):
                 self.prompt.format(X=text, classes=", ".join(self.classes_)),
                 return_tensors="pt",
             )
-            output = self.model.generate(**inputs, max_new_tokens=50)
-            pred.append(
-                self.tokenizer.decode(output[0], skip_special_tokens=True)
+            output = self.model.generate(
+                **inputs, max_new_tokens=self.max_new_tokens
             )
+            generated = self.tokenizer.decode(
+                output[0], skip_special_tokens=True
+            )
+            label = generated.removeprefix(self.prompt)
+            if self.fuzzy_match and label not in self.classes_:
+                label, _ = process.extractOne(label, self.classes_)
+            pred.append(label)
         return np.array(pred)
