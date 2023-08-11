@@ -11,53 +11,76 @@ Transformer-based zero/few shot learning components for scikit-learn pipelines.
 pip install stormtrooper
 ```
 
-### Zero shot models
+```python
+class_labels = ["atheism/christianity", "astronomy/space"]
+example_texts = [
+    "God came down to earth to save us.",
+    "A new nebula was recently discovered in the proximity of the Oort cloud."
+]
+```
 
+
+### Zero-shot learning
+
+For zero-shot learning you can use zero-shot models:
 ```python
 from stormtrooper import ZeroShotClassifier
-
-class_labels = ["atheism/christianity", "astronomy/space"]
 classifier = ZeroShotClassifier().fit(None, class_labels)
-
-example_texts = [
-    "God came down to earth to save us.",
-    "A new nebula was recently discovered in the proximity of the Oort cloud."
-]
-predictions = classifier.predict(example_texts)
-
-assert list(predictions) == ["atheism/christianity", "astronomy/space"]
 ```
 
-### Text2Text models (T5)
-
-```python
-from stormtrooper import Text2TextZeroShotClassifier
-
-class_labels = ["atheism/christianity", "astronomy/space"]
-classifier = Text2TextZeroShotClassifier().fit(None, class_labels)
-
-example_texts = [
-    "God came down to earth to save us.",
-    "A new nebula was recently discovered in the proximity of the Oort cloud."
-]
-predictions = classifier.predict(example_texts)
-
-assert list(predictions) == ["atheism/christianity", "astronomy/space"]
-```
-
-### Text generation models (Llama/GPT)
-
+Generative models (GPT, Llama):
 ```python
 from stormtrooper import GenerativeZeroShotClassifier
+# You can hand-craft prompts if it suits you better, but
+# a default prompt is already available
+prompt = """
+### System:
+You are a literary expert tasked with labeling texts according to
+their content.
+Please follow the user's instructions as precisely as you can.
+### User:
+Your task will be to classify a text document into one
+of the following classes: {classes}.
+Please respond with a single label that you think fits
+the document best.
+Classify the following piece of text:
+'{X}'
+### Assistant:
+"""
+classifier = GenerativeZeroShotClassifier(prompt=prompt).fit(None, class_labels)
+```
 
-class_labels = ["atheism/christianity", "astronomy/space"]
-classifier = GenerativeZeroShotClassifier().fit(None, class_labels)
+Text2Text models (T5):
+If you are running low on resources I would personally recommend T5.
+```python
+from stormtrooper import Text2TextZeroShotClassifier
+# You can define a custom prompt, but a default one is available
+prompt = "..."
+classifier =Text2TextZeroShotClassifier(prompt=prompt).fit(None, class_labels)
+```
 
-example_texts = [
-    "God came down to earth to save us.",
-    "A new nebula was recently discovered in the proximity of the Oort cloud."
-]
+```python
 predictions = classifier.predict(example_texts)
 
 assert list(predictions) == ["atheism/christianity", "astronomy/space"]
 ```
+
+### Few-Shot Learning
+
+For few-shot tasks you can only use Generative and Text2Text (aka. promptable) models.
+
+```python
+from stormtrooper import GenerativeFewShotClassifier, Text2TextFewShotClassifier
+
+classifier = Text2TextFewShotClassifier().fit(example_texts, class_labels)
+predictions = model.predict(["Calvinists believe in predestination."])
+
+assert list(predictions) == ["atheism/christianity"]
+```
+
+### Fuzzy Matching
+
+Models by default will fuzzy match results to the closest class label, you can disable this behavior
+by specifying `fuzzy_match=False`.
+
+If you want fuzzy matching speedup, you should install `python-Levenshtein`.
