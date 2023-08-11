@@ -13,7 +13,7 @@ I will give you a piece of text. Please classify it
 as one of these classes: {classes}. Please only respond
 with the class label in the same format as provided.
 
-{X}
+'{X}'
 """
 
 
@@ -156,7 +156,7 @@ with the class label in the same format as provided.
 Here are some examples of texts labelled by experts.
 {examples}
 Label this piece of text:
-{X}
+'{X}'
 """
 
 example_prompt = """
