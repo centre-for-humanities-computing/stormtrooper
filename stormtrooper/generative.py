@@ -190,7 +190,7 @@ Classify the following piece of text:
 
 example_prompt = """
 Examples of texts labelled {label}:
-{examples}
+'{examples}'
 """
 
 
