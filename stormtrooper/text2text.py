@@ -135,8 +135,11 @@ class Text2TextZeroShotClassifier(BaseEstimator, ClassifierMixin):
         if self.progress_bar:
             X = tqdm(X)
         for text in X:
+            classes_in_quotes = [f"'{label}'" for label in self.classes_]
             inputs = self.tokenizer(
-                self.prompt.format(X=text, classes=", ".join(self.classes_)),
+                self.prompt.format(
+                    X=text, classes=", ".join(classes_in_quotes)
+                ),
                 return_tensors="pt",
             )
             output = self.model.generate(
@@ -282,13 +285,14 @@ class Text2TextFewShotClassifier(BaseEstimator, ClassifierMixin):
         for label, examples in self.examples_.items():
             examples = [f"'{example}'" for example in examples]
             subprompt = example_prompt.format(
-                label=label, examples="\n".join(examples)
+                label=f"'{label}'", examples="\n".join(examples)
             )
             text_examples.append(subprompt)
         examples_subprompt = "\n".join(text_examples)
+        classes_in_quotes = [f"'{label}'" for label in self.classes_]
         prompt = fewshot_prompt.format(
             X=text,
-            classes=", ".join(self.classes_),
+            classes=", ".join(classes_in_quotes),
             examples=examples_subprompt,
         )
         return prompt
