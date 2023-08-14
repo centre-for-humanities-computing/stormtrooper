@@ -8,6 +8,8 @@ from thefuzz import process
 from tqdm import tqdm
 from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
 
+__all__ = ["Text2TextZeroShotClassifier", "Text2TextFewShotClassifier"]
+
 default_prompt = """
 I will give you a piece of text. Please classify it
 as one of these classes: {classes}. Please only respond
@@ -29,13 +31,6 @@ class Text2TextZeroShotClassifier(BaseEstimator, ClassifierMixin):
         You can specify the prompt which will be used to prompt the model.
         Use placeholders to indicate where the class labels and the
         data should be placed in the prompt.
-        example: '''
-        I will give you a piece of text. Please classify it
-        as one of these classes: {classes}. Please only respond
-        with the class label in the same format as provided.
-
-        {X}
-        '''
     max_new_tokens: int, default 256
         Maximum number of tokens the model should generate.
     fuzzy_match: bool, default True
@@ -180,16 +175,6 @@ class Text2TextFewShotClassifier(BaseEstimator, ClassifierMixin):
         You can specify the prompt which will be used to prompt the model.
         Use placeholders to indicate where the class labels and the
         data should be placed in the prompt.
-        example: '''
-        I will give you a piece of text. Please classify it
-        as one of these classes: {classes}.
-        Please only respond with the class label in the
-        same format as provided.
-        Here are a couple of examples assigned by domain experts:
-        {examples}
-        Classify the following text:
-        {X}
-        '''
     max_new_tokens: int, default 256
         Maximum number of tokens the model should generate.
     fuzzy_match: bool, default True

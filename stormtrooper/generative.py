@@ -8,6 +8,8 @@ from thefuzz import process
 from tqdm import tqdm
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
+__all__ = ["GenerativeZeroShotClassifier", "GenerativeFewShotClassifier"]
+
 default_prompt = """
 ### System:
 You are a classification model that is really good at following
@@ -37,18 +39,6 @@ class GenerativeZeroShotClassifier(BaseEstimator, ClassifierMixin):
         You can specify the prompt which will be used to prompt the model.
         Use placeholders to indicate where the class labels and the
         data should be placed in the prompt.
-        example: '''
-        ### System:
-            You are an expert of literary analysis. Help the user by following
-            instructions exactly.
-        ### User:
-            I will give you a piece of text that belongs to
-            the following classes: {classes}.
-            Please respond with the topic you think this document belongs to.
-            Remember to only give a label and nothing else.
-            {X}.
-        ### Assistant:
-        '''
     max_new_tokens: int, default 256
         Maximum number of tokens the model should generate.
     fuzzy_match: bool, default True
@@ -207,21 +197,6 @@ class GenerativeFewShotClassifier(BaseEstimator, ClassifierMixin):
         You can specify the prompt which will be used to prompt the model.
         Use placeholders to indicate where the class labels and the
         data should be placed in the prompt.
-        example: '''
-        ### System:
-            You are an expert of literary analysis. Help the user by following
-            instructions exactly.
-        ### User:
-            I will give you a piece of text that belongs to
-            the following classes: {classes}.
-            Please respond with the topic you think this document belongs to.
-            Remember to only give a label and nothing else.
-            Here are a couple of examples of labels assigned by experts:
-            {examples}
-            Classify the following piece of text:
-            '{X}'
-        ### Assistant:
-        '''
     max_new_tokens: int, default 256
         Maximum number of tokens the model should generate.
     fuzzy_match: bool, default True

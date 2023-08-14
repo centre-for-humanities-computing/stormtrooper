@@ -7,6 +7,8 @@ from sklearn.exceptions import NotFittedError
 from tqdm import tqdm
 from transformers import pipeline
 
+__all__ = ["ZeroShotClassifier"]
+
 
 class ZeroShotClassifier(BaseEstimator, TransformerMixin, ClassifierMixin):
     """Scikit-learn compatible zero shot classification

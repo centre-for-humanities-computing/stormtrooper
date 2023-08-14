@@ -7,3 +7,11 @@ from stormtrooper.text2text import (
     Text2TextZeroShotClassifier,
 )
 from stormtrooper.zero_shot import ZeroShotClassifier
+
+__all__ = [
+    "GenerativeZeroShotClassifier",
+    "GenerativeFewShotClassifier",
+    "Text2TextZeroShotClassifier",
+    "Text2TextFewShotClassifier",
+    "ZeroShotClassifier",
+]
