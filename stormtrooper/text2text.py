@@ -39,6 +39,9 @@ class Text2TextZeroShotClassifier(BaseEstimator, ClassifierMixin):
         This is useful when the model isn't giving specific enough answers.
     progress_bar: bool, default True
         Indicates whether a progress bar should be shown.
+    device: str, default 'cpu'
+        Indicates which device should be used for classification.
+        Models are by default run on CPU.
 
     Attributes
     ----------
@@ -53,11 +56,15 @@ class Text2TextZeroShotClassifier(BaseEstimator, ClassifierMixin):
         max_new_tokens: int = 256,
         fuzzy_match: bool = True,
         progress_bar: bool = True,
+        device: str = "cpu",
     ):
         self.model_name = model_name
         self.prompt = prompt
+        self.device = device
         self.tokenizer = AutoTokenizer.from_pretrained(model_name)
-        self.model = AutoModelForSeq2SeqLM.from_pretrained(model_name)
+        self.model = AutoModelForSeq2SeqLM.from_pretrained(model_name).to(
+            self.device
+        )
         self.classes_ = None
         self.progress_bar = progress_bar
         self.max_new_tokens = max_new_tokens
@@ -136,7 +143,7 @@ class Text2TextZeroShotClassifier(BaseEstimator, ClassifierMixin):
                     X=text, classes=", ".join(classes_in_quotes)
                 ),
                 return_tensors="pt",
-            )
+            ).to(self.device)
             output = self.model.generate(
                 **inputs, max_new_tokens=self.max_new_tokens
             )
@@ -183,6 +190,9 @@ class Text2TextFewShotClassifier(BaseEstimator, ClassifierMixin):
         This is useful when the model isn't giving specific enough answers.
     progress_bar: bool, default True
         Indicates whether a progress bar should be shown.
+    device: str, default 'cpu'
+        Indicates which device should be used for classification.
+        Models are by default run on CPU.
 
     Attributes
     ----------
@@ -199,11 +209,15 @@ class Text2TextFewShotClassifier(BaseEstimator, ClassifierMixin):
         max_new_tokens: int = 256,
         fuzzy_match: bool = True,
         progress_bar: bool = True,
+        device: str = "cpu",
     ):
         self.model_name = model_name
         self.prompt = prompt
+        self.device = device
         self.tokenizer = AutoTokenizer.from_pretrained(model_name)
-        self.model = AutoModelForSeq2SeqLM.from_pretrained(model_name)
+        self.model = AutoModelForSeq2SeqLM.from_pretrained(model_name).to(
+            self.device
+        )
         self.classes_ = None
         self.progress_bar = progress_bar
         self.max_new_tokens = max_new_tokens
@@ -307,7 +321,7 @@ class Text2TextFewShotClassifier(BaseEstimator, ClassifierMixin):
             inputs = self.tokenizer(
                 prompt,
                 return_tensors="pt",
-            )
+            ).to(self.device)
             output = self.model.generate(
                 **inputs, max_new_tokens=self.max_new_tokens
             )

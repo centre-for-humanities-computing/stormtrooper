@@ -20,6 +20,9 @@ class ZeroShotClassifier(BaseEstimator, TransformerMixin, ClassifierMixin):
         Zero-shot model to load from HuggingFace.
     progress_bar: bool, default True
         Indicates whether a progress bar should be shown.
+    device: str, default 'cpu'
+        Indicates which device should be used for classification.
+        Models are by default run on CPU.
 
     Attributes
     ----------
@@ -31,9 +34,10 @@ class ZeroShotClassifier(BaseEstimator, TransformerMixin, ClassifierMixin):
         self,
         model_name: str = "facebook/bart-large-mnli",
         progress_bar: bool = True,
+        device: str = "cpu",
     ):
         self.model_name = model_name
-        self.pipe = pipeline(model=model_name)
+        self.pipe = pipeline(model=model_name, device=device)
         self.classes_ = None
         self.pandas_out = False
         self.progress_bar = progress_bar

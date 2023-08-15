@@ -47,6 +47,9 @@ class GenerativeZeroShotClassifier(BaseEstimator, ClassifierMixin):
         This is useful when the model isn't giving specific enough answers.
     progress_bar: bool, default True
         Indicates whether a progress bar should be shown.
+    device: str, default 'cpu'
+        Indicates which device should be used for classification.
+        Models are by default run on CPU.
 
     Attributes
     ----------
@@ -61,11 +64,15 @@ class GenerativeZeroShotClassifier(BaseEstimator, ClassifierMixin):
         max_new_tokens: int = 256,
         fuzzy_match: bool = True,
         progress_bar: bool = True,
+        device: str = "cpu",
     ):
         self.model_name = model_name
         self.prompt = prompt
+        self.device = device
         self.tokenizer = AutoTokenizer.from_pretrained(model_name)
-        self.model = AutoModelForCausalLM.from_pretrained(model_name)
+        self.model = AutoModelForCausalLM.from_pretrained(model_name).to(
+            self.device
+        )
         self.classes_ = None
         self.max_new_tokens = max_new_tokens
         self.fuzzy_match = fuzzy_match
@@ -121,7 +128,7 @@ class GenerativeZeroShotClassifier(BaseEstimator, ClassifierMixin):
         inputs = self.tokenizer(
             prompt,
             return_tensors="pt",
-        )
+        ).to(self.device)
         output = self.model.generate(
             **inputs, max_new_tokens=self.max_new_tokens
         )
@@ -205,6 +212,9 @@ class GenerativeFewShotClassifier(BaseEstimator, ClassifierMixin):
         This is useful when the model isn't giving specific enough answers.
     progress_bar: bool, default True
         Indicates whether a progress bar should be shown.
+    device: str, default 'cpu'
+        Indicates which device should be used for classification.
+        Models are by default run on CPU.
 
     Attributes
     ----------
@@ -221,11 +231,15 @@ class GenerativeFewShotClassifier(BaseEstimator, ClassifierMixin):
         max_new_tokens: int = 256,
         fuzzy_match: bool = True,
         progress_bar: bool = True,
+        device: str = "cpu",
     ):
         self.model_name = model_name
         self.prompt = prompt
+        self.device = device
         self.tokenizer = AutoTokenizer.from_pretrained(model_name)
-        self.model = AutoModelForCausalLM.from_pretrained(model_name)
+        self.model = AutoModelForCausalLM.from_pretrained(model_name).to(
+            self.device
+        )
         self.classes_ = None
         self.max_new_tokens = max_new_tokens
         self.fuzzy_match = fuzzy_match
@@ -287,7 +301,7 @@ class GenerativeFewShotClassifier(BaseEstimator, ClassifierMixin):
         inputs = self.tokenizer(
             prompt,
             return_tensors="pt",
-        )
+        ).to(self.device)
         output = self.model.generate(
             **inputs, max_new_tokens=self.max_new_tokens
         )
