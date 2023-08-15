@@ -33,7 +33,7 @@ class GenerativeZeroShotClassifier(BaseEstimator, ClassifierMixin):
 
     Parameters
     ----------
-    model_name: str, default 'upstage/Llama-2-70b-instruct-v2 '
+    model_name: str, default 'stabilityai/StableBeluga-7B'
         Generative instruct model from HuggingFace.
     prompt: str, optional
         You can specify the prompt which will be used to prompt the model.
@@ -59,7 +59,7 @@ class GenerativeZeroShotClassifier(BaseEstimator, ClassifierMixin):
 
     def __init__(
         self,
-        model_name: str = "upstage/Llama-2-70b-instruct-v2",
+        model_name: str = "stabilityai/StableBeluga-7B",
         prompt: str = default_prompt,
         max_new_tokens: int = 256,
         fuzzy_match: bool = True,
@@ -198,7 +198,7 @@ class GenerativeFewShotClassifier(BaseEstimator, ClassifierMixin):
 
     Parameters
     ----------
-    model_name: str, default 'upstage/Llama-2-70b-instruct-v2 '
+    model_name: str, default 'stabilityai/StableBeluga-7B'
         Generative instruct model from HuggingFace.
     prompt: str, optional
         You can specify the prompt which will be used to prompt the model.
@@ -226,7 +226,7 @@ class GenerativeFewShotClassifier(BaseEstimator, ClassifierMixin):
 
     def __init__(
         self,
-        model_name: str = "upstage/Llama-2-70b-instruct-v2",
+        model_name: str = "stabilityai/StableBeluga-7B",
         prompt: str = default_prompt,
         max_new_tokens: int = 256,
         fuzzy_match: bool = True,
