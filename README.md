@@ -5,6 +5,8 @@
 <br>
 Transformer-based zero/few shot learning components for scikit-learn pipelines.
 
+[Documentation](https://centre-for-humanities-computing.github.io/stormtrooper/)
+
 ## Example
 
 ```bash
