@@ -11,6 +11,10 @@ You can install stormtrooper from PyPI.
 
    pip install stormtrooper
 
+.. note:: 
+   PyTorch is not a direct requirement, but you will have to install it to run models.
+   See `Torch Installation <https://pytorch.org/>`_
+
 Usage
 ^^^^^^^^^
 
@@ -39,6 +43,7 @@ In this example I am going to use Google's FLAN-T5.
    text2text
    generative
    prompting
+   inference_on_gpu
 
 
 .. toctree::

@@ -84,3 +84,12 @@ Models by default will fuzzy match results to the closest class label, you can d
 by specifying `fuzzy_match=False`.
 
 If you want fuzzy matching speedup, you should install `python-Levenshtein`.
+
+### Inference on GPU
+
+From version 0.2.2 you can run models on GPU.
+You can specify the device when initializing a model:
+
+```python
+classifier = Text2TextZeroShotClassifier(device="cuda:0")
+```
