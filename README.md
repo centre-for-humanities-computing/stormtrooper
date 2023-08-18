@@ -7,6 +7,10 @@ Transformer-based zero/few shot learning components for scikit-learn pipelines.
 
 [Documentation](https://centre-for-humanities-computing.github.io/stormtrooper/)
 
+## New in version 0.3.0 🌟 
+
+- SetFit is now part of the library and can be used in scikit-learn workflows.
+
 ## Example
 
 ```bash
@@ -69,12 +73,13 @@ assert list(predictions) == ["atheism/christianity", "astronomy/space"]
 
 ### Few-Shot Learning
 
-For few-shot tasks you can only use Generative and Text2Text (aka. promptable) models.
+For few-shot tasks you can only use Generative, Text2Text (aka. promptable) or SetFit models.
 
 ```python
 from stormtrooper import GenerativeFewShotClassifier, Text2TextFewShotClassifier
+from stormtrooper.setfit import SetFitFewShotClassifier
 
-classifier = Text2TextFewShotClassifier().fit(example_texts, class_labels)
+classifier = SetFitFewShotClassifier().fit(example_texts, class_labels)
 predictions = model.predict(["Calvinists believe in predestination."])
 
 assert list(predictions) == ["atheism/christianity"]
@@ -82,7 +87,7 @@ assert list(predictions) == ["atheism/christianity"]
 
 ### Fuzzy Matching
 
-Models by default will fuzzy match results to the closest class label, you can disable this behavior
+Generative and text2text models by default will fuzzy match results to the closest class label, you can disable this behavior
 by specifying `fuzzy_match=False`.
 
 If you want fuzzy matching speedup, you should install `python-Levenshtein`.
