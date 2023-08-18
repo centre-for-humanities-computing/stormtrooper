@@ -169,6 +169,7 @@
 <li class="toctree-l1"><a class="reference internal" href="zeroshot.html">Zero-shot models</a></li>
 <li class="toctree-l1"><a class="reference internal" href="text2text.html">Text2Text models</a></li>
 <li class="toctree-l1"><a class="reference internal" href="generative.html">Generative models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setfit.html">SetFit models</a></li>
 <li class="toctree-l1"><a class="reference internal" href="prompting.html">Prompting</a></li>
 <li class="toctree-l1"><a class="reference internal" href="inference_on_gpu.html">Inference on GPU</a></li>
 </ul>
@@ -215,13 +216,12 @@ All components are fully scikit-learn compatible thereby making it easier to int
 <section id="installation">
 <h2>Installation<a class="headerlink" href="#installation" title="Permalink to this heading">#</a></h2>
 <p>You can install stormtrooper from PyPI.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">stormtrooper</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">stormtrooper</span><span class="p">[</span><span class="n">torch</span><span class="p">]</span>
 </pre></div>
 </div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>PyTorch is not a direct requirement, but you will have to install it to run models.
-See <a class="reference external" href="https://pytorch.org/">Torch Installation</a></p>
+<p>If you intend to use SetFit models as well, install stormtrooper with optional dependencies.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">stormtrooper</span><span class="p">[</span><span class="n">setfit</span><span class="p">]</span>
+</pre></div>
 </div>
 </section>
 <section id="usage">
@@ -246,6 +246,7 @@ In this example I am going to use Google’s FLAN-T5.</p>
 <li class="toctree-l1"><a class="reference internal" href="zeroshot.html">Zero-shot models</a></li>
 <li class="toctree-l1"><a class="reference internal" href="text2text.html">Text2Text models</a></li>
 <li class="toctree-l1"><a class="reference internal" href="generative.html">Generative models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setfit.html">SetFit models</a></li>
 <li class="toctree-l1"><a class="reference internal" href="prompting.html">Prompting</a></li>
 <li class="toctree-l1"><a class="reference internal" href="inference_on_gpu.html">Inference on GPU</a></li>
 </ul>

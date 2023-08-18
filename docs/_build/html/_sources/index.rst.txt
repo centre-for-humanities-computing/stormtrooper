@@ -9,11 +9,13 @@ You can install stormtrooper from PyPI.
 
 .. code-block::
 
-   pip install stormtrooper
+   pip install stormtrooper[torch]
 
-.. note:: 
-   PyTorch is not a direct requirement, but you will have to install it to run models.
-   See `Torch Installation <https://pytorch.org/>`_
+If you intend to use SetFit models as well, install stormtrooper with optional dependencies.
+
+.. code-block::
+
+   pip install stormtrooper[setfit]
 
 Usage
 ^^^^^^^^^
@@ -42,6 +44,7 @@ In this example I am going to use Google's FLAN-T5.
    zeroshot
    text2text
    generative
+   setfit
    prompting
    inference_on_gpu
 
