@@ -1,0 +1,10 @@
+cff-version: 0.1.0
+message: "When using this package please cite us."
+authors:
+- family-names: "Kardos"
+  given-names: "Márton"
+  orcid: "https://orcid.org/0000-0001-9652-4498"
+title: "stormtrooper: scikit-learn compatible zero and few shot learning in Python"
+version: 0.3.0
+date-released: 2023-18-08
+url: "https://github.com/centre-for-humanities-computing/stormtrooper"
