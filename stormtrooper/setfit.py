@@ -42,6 +42,7 @@ class SetFitZeroShotClassifier(BaseEstimator, ClassifierMixin):
         self.model.model_body.to(device)
         self.trainer = None
         self.sample_size = sample_size
+        self.device = device
 
     def _train(self):
         if self.classes_ is None:
@@ -160,6 +161,7 @@ class SetFitFewShotClassifier(BaseEstimator, ClassifierMixin):
         self.model = SetFitModel.from_pretrained(model_name)
         self.model.model_body.to(device)
         self.trainer = None
+        self.device = device
 
     def fit(self, X: Iterable[str], y: Iterable[str]):
         """Learns class labels.
