@@ -1,7 +1,6 @@
 """Zero and few-shot classification using SetFit."""
 from typing import Iterable
 
-import datasets
 import numpy as np
 from sklearn.base import BaseEstimator, ClassifierMixin
 from sklearn.exceptions import NotFittedError
@@ -183,6 +182,7 @@ class SetFitFewShotClassifier(BaseEstimator, ClassifierMixin):
         self
             Fitted model.
         """
+        import datasets
         from setfit import SetFitTrainer
 
         X = list(X)
