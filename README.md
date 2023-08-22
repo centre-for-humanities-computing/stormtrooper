@@ -76,8 +76,7 @@ assert list(predictions) == ["atheism/christianity", "astronomy/space"]
 For few-shot tasks you can only use Generative, Text2Text (aka. promptable) or SetFit models.
 
 ```python
-from stormtrooper import GenerativeFewShotClassifier, Text2TextFewShotClassifier
-from stormtrooper.setfit import SetFitFewShotClassifier
+from stormtrooper import GenerativeFewShotClassifier, Text2TextFewShotClassifier, SetFitFewShotClassifier
 
 classifier = SetFitFewShotClassifier().fit(example_texts, class_labels)
 predictions = model.predict(["Calvinists believe in predestination."])
