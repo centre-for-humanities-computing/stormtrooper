@@ -15,7 +15,7 @@ Since this requires the setfit package we recommend you install stormtrooper wit
 
 .. code-block:: python
 
-   from stormtrooper.setfit import SetFitZeroShotClassifier, SetFitFewShotClassifier
+   from stormtrooper import SetFitZeroShotClassifier, SetFitFewShotClassifier
 
    sample_text = "It is the Electoral College's responsibility to elect the president."
 
