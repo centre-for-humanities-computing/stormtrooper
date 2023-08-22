@@ -3,7 +3,6 @@ from typing import Iterable
 
 import datasets
 import numpy as np
-from setfit import SetFitModel, SetFitTrainer, get_templated_dataset
 from sklearn.base import BaseEstimator, ClassifierMixin
 from sklearn.exceptions import NotFittedError
 
@@ -36,6 +35,8 @@ class SetFitZeroShotClassifier(BaseEstimator, ClassifierMixin):
         sample_size: int = 8,
         device: str = "cpu",
     ):
+        from setfit import SetFitModel
+
         self.model_name = model_name
         self.classes_ = None
         self.model = SetFitModel.from_pretrained(model_name)
@@ -45,6 +46,8 @@ class SetFitZeroShotClassifier(BaseEstimator, ClassifierMixin):
         self.device = device
 
     def _train(self):
+        from setfit import SetFitTrainer, get_templated_dataset
+
         if self.classes_ is None:
             raise NotFittedError(
                 "You should collect all class labels before calling _train()"
@@ -156,6 +159,8 @@ class SetFitFewShotClassifier(BaseEstimator, ClassifierMixin):
         model_name: str = "sentence-transformers/all-MiniLM-L6-v2",
         device: str = "cpu",
     ):
+        from setfit import SetFitModel
+
         self.model_name = model_name
         self.classes_ = None
         self.model = SetFitModel.from_pretrained(model_name)
@@ -178,6 +183,8 @@ class SetFitFewShotClassifier(BaseEstimator, ClassifierMixin):
         self
             Fitted model.
         """
+        from setfit import SetFitTrainer
+
         X = list(X)
         y = list(y)
         self.classes_ = np.array(list(set(y)))
