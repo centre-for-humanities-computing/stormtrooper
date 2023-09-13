@@ -47,8 +47,8 @@ And a few shot example:
 API reference
 ^^^^^^^^^^^^^
 
-.. autoclass:: stormtrooper.setfit.SetFitZeroShotClassifier
+.. autoclass:: stormtrooper.SetFitZeroShotClassifier
    :members:
 
-.. autoclass:: stormtrooper.setfit.SetFitFewShotClassifier
+.. autoclass:: stormtrooper.SetFitFewShotClassifier
    :members:
