@@ -79,12 +79,15 @@ def create_messages(prompt: dict[str, str], data: dict[str, str]):
 
 
 class RequestHandler:
+    """Utility class for handling requests asyncronously."""
+
     def __init__(self, max_retries: int = 5):
         self.current_minute = None
         self.max_retries = max_retries
         self.response_queue = []
 
     def wait_for_next_minute(self):
+        """Waits for next minute before starting a new request."""
         if self.current_minute is None:
             self.current_minute = datetime.now().minute
         while datetime.now().minute == self.current_minute:
@@ -92,24 +95,32 @@ class RequestHandler:
         self.current_minute = datetime.now().minute
 
     async def run_request(self, request: dict):
+        """Starts a single request asyncronously."""
         res = None
         rate_error = None
+        # Do N retries
         for retry in range(self.max_retries):
             try:
                 self.current_minute = datetime.now().minute
                 res = await openai.ChatCompletion.acreate(**request)
                 self.response_queue.append(res)
+                # We break out of the retry loop if the completion arrives
+                # intact
                 break
             except openai.error.RateLimitError as e:
+                # If we exceed the rate limit we wait for the next minute.
                 self.wait_for_next_minute()
                 rate_error = e
         if res is None:
+            # If we still didn't manage to get a response we propagate
+            # the error to top level.
             raise openai.error.RateLimitError(
                 "Maximal rate limit exceeded, "
                 f"{self.max_retries} retries did not fix the issue."
             ) from rate_error
 
     async def run_requests(self, requests: Iterable[dict]) -> list:
+        """Runs all requests simultaneously."""
         self.response_queue = []
         for request in requests:
             await self.run_request(request)
