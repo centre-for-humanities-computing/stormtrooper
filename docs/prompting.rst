@@ -1,7 +1,7 @@
 Prompting
 =========
 
-Text2Text and Generative models use a prompting approach for classification.
+Text2Text, Generative, and OpenAI models use a prompting approach for classification.
 stormtrooper comes with default prompts, but these might not suit the model you want to use,
 or your use case might require a different prompting strategy from the default.
 stormtrooper allows you to specify custom prompts in these cases.
@@ -12,7 +12,7 @@ Templates
 Prompting in stormtrooper uses a templating approach, where the .format() method is called on prompts to
 insert labels and data.
 
-A zero-shot prompt for an instruct Llama model like Stable Beluga would look something like this (this is the default):
+A zero-shot prompt for an instruct Llama model like Stable Beluga or for ChatGPT would look something like this (this is the default):
 
 .. code-block:: python
   

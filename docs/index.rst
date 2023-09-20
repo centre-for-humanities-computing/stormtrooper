@@ -17,6 +17,14 @@ If you intend to use SetFit models as well, install stormtrooper with optional d
 
    pip install stormtrooper[setfit]
 
+From version 0.4.0 you can also use OpenAI models in stormtrooper.
+
+.. code-block::
+
+   pip install stormtrooper[openai]
+   export OPENAI_API_KEY="sk-..."
+
+
 Usage
 ^^^^^^^^^
 
@@ -45,6 +53,7 @@ In this example I am going to use Google's FLAN-T5.
    text2text
    generative
    setfit
+   openai
    prompting
    inference_on_gpu
 

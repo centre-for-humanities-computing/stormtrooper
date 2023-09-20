@@ -5,7 +5,7 @@
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Zero-shot models" href="zeroshot.html" />
 
-    <link rel="shortcut icon" href="_static/logo.svg"/><!-- Generated with Sphinx 7.2.5 and Furo 2023.09.10 -->
+    <link rel="shortcut icon" href="_static/logo.svg"/><!-- Generated with Sphinx 7.2.6 and Furo 2023.09.10 -->
         <title>stormtrooper</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=362ab14a" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=135e06be" />
@@ -170,6 +170,7 @@
 <li class="toctree-l1"><a class="reference internal" href="text2text.html">Text2Text models</a></li>
 <li class="toctree-l1"><a class="reference internal" href="generative.html">Generative models</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setfit.html">SetFit models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="openai.html">OpenAI models</a></li>
 <li class="toctree-l1"><a class="reference internal" href="prompting.html">Prompting</a></li>
 <li class="toctree-l1"><a class="reference internal" href="inference_on_gpu.html">Inference on GPU</a></li>
 </ul>
@@ -223,6 +224,11 @@ All components are fully scikit-learn compatible thereby making it easier to int
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">stormtrooper</span><span class="p">[</span><span class="n">setfit</span><span class="p">]</span>
 </pre></div>
 </div>
+<p>From version 0.4.0 you can also use OpenAI models in stormtrooper.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">stormtrooper</span><span class="p">[</span><span class="n">openai</span><span class="p">]</span>
+<span class="n">export</span> <span class="n">OPENAI_API_KEY</span><span class="o">=</span><span class="s2">&quot;sk-...&quot;</span>
+</pre></div>
+</div>
 </section>
 <section id="usage">
 <h2>Usage<a class="headerlink" href="#usage" title="Link to this heading">#</a></h2>
@@ -247,6 +253,7 @@ In this example I am going to use Google’s FLAN-T5.</p>
 <li class="toctree-l1"><a class="reference internal" href="text2text.html">Text2Text models</a></li>
 <li class="toctree-l1"><a class="reference internal" href="generative.html">Generative models</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setfit.html">SetFit models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="openai.html">OpenAI models</a></li>
 <li class="toctree-l1"><a class="reference internal" href="prompting.html">Prompting</a></li>
 <li class="toctree-l1"><a class="reference internal" href="inference_on_gpu.html">Inference on GPU</a></li>
 </ul>

@@ -7,6 +7,10 @@ Transformer-based zero/few shot learning components for scikit-learn pipelines.
 
 [Documentation](https://centre-for-humanities-computing.github.io/stormtrooper/)
 
+## New in version 0.4.0 :fire:
+
+- You can now use OpenAI's chat models with blazing fast :zap: async inference.
+
 ## New in version 0.3.0 🌟 
 
 - SetFit is now part of the library and can be used in scikit-learn workflows.
@@ -71,9 +75,24 @@ predictions = classifier.predict(example_texts)
 assert list(predictions) == ["atheism/christianity", "astronomy/space"]
 ```
 
+OpenAI models:
+You can now use OpenAI's chat LLMs in stormtrooper workflows.
+
+```python
+from stormtrooper import OpenAIZeroShotClassifier
+
+classifier = OpenAIZeroShotClassifier("gpt-4").fit(None, class_labels)
+```
+
+```python
+predictions = classifier.predict(example_texts)
+
+assert list(predictions) == ["atheism/christianity", "astronomy/space"]
+```
+
 ### Few-Shot Learning
 
-For few-shot tasks you can only use Generative, Text2Text (aka. promptable) or SetFit models.
+For few-shot tasks you can only use Generative, Text2Text, OpenAI (aka. promptable) or SetFit models.
 
 ```python
 from stormtrooper import GenerativeFewShotClassifier, Text2TextFewShotClassifier, SetFitFewShotClassifier

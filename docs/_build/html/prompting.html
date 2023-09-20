@@ -3,9 +3,9 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Inference on GPU" href="inference_on_gpu.html" /><link rel="prev" title="SetFit models" href="setfit.html" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Inference on GPU" href="inference_on_gpu.html" /><link rel="prev" title="OpenAI models" href="openai.html" />
 
-    <link rel="shortcut icon" href="_static/logo.svg"/><!-- Generated with Sphinx 7.2.5 and Furo 2023.09.10 -->
+    <link rel="shortcut icon" href="_static/logo.svg"/><!-- Generated with Sphinx 7.2.6 and Furo 2023.09.10 -->
         <title>Prompting - stormtrooper</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=362ab14a" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=135e06be" />
@@ -170,6 +170,7 @@
 <li class="toctree-l1"><a class="reference internal" href="text2text.html">Text2Text models</a></li>
 <li class="toctree-l1"><a class="reference internal" href="generative.html">Generative models</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setfit.html">SetFit models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="openai.html">OpenAI models</a></li>
 <li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Prompting</a></li>
 <li class="toctree-l1"><a class="reference internal" href="inference_on_gpu.html">Inference on GPU</a></li>
 </ul>
@@ -211,7 +212,7 @@
         <article role="main">
           <section id="prompting">
 <h1>Prompting<a class="headerlink" href="#prompting" title="Link to this heading">#</a></h1>
-<p>Text2Text and Generative models use a prompting approach for classification.
+<p>Text2Text, Generative, and OpenAI models use a prompting approach for classification.
 stormtrooper comes with default prompts, but these might not suit the model you want to use,
 or your use case might require a different prompting strategy from the default.
 stormtrooper allows you to specify custom prompts in these cases.</p>
@@ -219,7 +220,7 @@ stormtrooper allows you to specify custom prompts in these cases.</p>
 <h2>Templates<a class="headerlink" href="#templates" title="Link to this heading">#</a></h2>
 <p>Prompting in stormtrooper uses a templating approach, where the .format() method is called on prompts to
 insert labels and data.</p>
-<p>A zero-shot prompt for an instruct Llama model like Stable Beluga would look something like this (this is the default):</p>
+<p>A zero-shot prompt for an instruct Llama model like Stable Beluga or for ChatGPT would look something like this (this is the default):</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">prompt</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">### System:</span>
 <span class="s2">You are a classification model that is really good at following</span>
@@ -270,14 +271,14 @@ insert labels and data.</p>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
-          <a class="prev-page" href="setfit.html">
+          <a class="prev-page" href="openai.html">
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">SetFit models</div>
+                <div class="title">OpenAI models</div>
                 
               </div>
             </a>
