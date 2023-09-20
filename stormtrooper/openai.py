@@ -7,7 +7,6 @@ import openai
 from sklearn.base import BaseEstimator, ClassifierMixin
 from sklearn.exceptions import NotFittedError
 from thefuzz import process
-from tqdm import tqdm
 
 from stormtrooper.openai_async import openai_chatcompletion
 
