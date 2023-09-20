@@ -161,7 +161,6 @@ async def chat_parallel_request(
     max_requests_per_minute: int,
     max_tokens_per_minute: int,
     max_attempts_per_request: int = 5,
-    api_key: Optional[str] = None,
     **chatgpt_kwargs: Any,
 ):
     """Processes API requests in parallel, throttling to stay under rate limits.
@@ -171,7 +170,6 @@ async def chat_parallel_request(
         max_requests_per_minute: The maximum number of requests to send per minute.
         max_tokens_per_minute: The maximum number of tokens to send per minute.
         max_attempts_per_request: The maximum number of times to retry a request.
-        api_key: The OpenAI API key. If not provided, the OPENAI_API_KEY environment variable will be used.
         chatgpt_kwargs: Keyword arguments to pass to openai.ChatCompletion.create()
 
     Returns:
@@ -188,9 +186,6 @@ async def chat_parallel_request(
     seconds_to_sleep_each_loop = (
         0.001  # 1 ms limits max throughput to 1,000 requests per second
     )
-
-    if api_key is None:
-        api_key = os.getenv("OPENAI_API_KEY")
 
     model_name = chatgpt_kwargs.get("model", None)
     if model_name is None:
@@ -329,7 +324,6 @@ def openai_chatcompletion(
     max_requests_per_minute: int = 3500,
     max_tokens_per_minute: int = 90_000,
     max_attempts_per_request: int = 5,
-    api_key: Optional[str] = None,
     chat_kwargs: Dict[str, Any] = {},
 ) -> List[APIResponse]:
     """
@@ -342,7 +336,6 @@ def openai_chatcompletion(
             max_requests_per_minute=max_requests_per_minute,
             max_tokens_per_minute=max_tokens_per_minute,
             max_attempts_per_request=max_attempts_per_request,
-            api_key=api_key,
             **chat_kwargs,
         )
     )

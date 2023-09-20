@@ -96,8 +96,13 @@ class OpenAIZeroShotClassifier(BaseEstimator, ClassifierMixin):
         data should be placed in the prompt.
     max_new_tokens: int, default 256
         Maximum number of tokens the model should generate.
-    max_retries: int, default 5
-        Maximum number of retries if the rate limit is exceeded.
+    max_requests_per_minute: int, default 3500
+        Maximum number of requests to send per minute.
+    max_tokens_per_minute: int, default 90_000
+        Maximum number of tokens per minute.
+    max_attempts_per_request: int, default 5
+        Maximum number of times a request shoulb be attempted if it fails
+        for the first time.
     fuzzy_match: bool, default True
         Indicates whether the output lables should be fuzzy matched
         to the learnt class labels.
@@ -115,7 +120,9 @@ class OpenAIZeroShotClassifier(BaseEstimator, ClassifierMixin):
         temperature: float = 1.0,
         prompt: str = default_prompt,
         max_new_tokens: int = 256,
-        max_retries: int = 5,
+        max_requests_per_minute: int = 3500,
+        max_tokens_per_minute: int = 90_000,
+        max_attempts_per_request: int = 5,
         fuzzy_match: bool = True,
     ):
         self.model_name = model_name
@@ -125,7 +132,9 @@ class OpenAIZeroShotClassifier(BaseEstimator, ClassifierMixin):
         self.classes_ = None
         self.max_new_tokens = max_new_tokens
         self.fuzzy_match = fuzzy_match
-        self.max_retries = max_retries
+        self.max_requests_per_minute = max_requests_per_minute
+        self.max_tokens_per_minute = max_tokens_per_minute
+        self.max_attempts_per_request = max_attempts_per_request
         try:
             openai.api_key = os.environ["OPENAI_API_KEY"]
             openai.organization = os.environ.get("OPENAI_ORG")
@@ -216,7 +225,14 @@ class OpenAIZeroShotClassifier(BaseEstimator, ClassifierMixin):
             "temperature": self.temperature,
             "max_tokens": self.max_new_tokens,
         }
-        responses = openai_chatcompletion(requests, chat_kwargs=parameters)
+        settings = {
+            "max_requests_per_minute": self.max_requests_per_minute,
+            "max_tokens_per_minute": self.max_tokens_per_minute,
+            "max_attempts_per_request": self.max_attempts_per_request,
+        }
+        responses = openai_chatcompletion(
+            requests, **settings, chat_kwargs=parameters
+        )
         results = []
         for response in responses:
             if not response:
@@ -254,8 +270,13 @@ class OpenAIFewShotClassifier(BaseEstimator, ClassifierMixin):
         data should be placed in the prompt.
     max_new_tokens: int, default 256
         Maximum number of tokens the model should generate.
-    max_retries: int, default 5
-        Maximum number of retries if the rate limit is exceeded.
+    max_requests_per_minute: int, default 3500
+        Maximum number of requests to send per minute.
+    max_tokens_per_minute: int, default 90_000
+        Maximum number of tokens per minute.
+    max_attempts_per_request: int, default 5
+        Maximum number of times a request shoulb be attempted if it fails
+        for the first time.
     fuzzy_match: bool, default True
         Indicates whether the output lables should be fuzzy matched
         to the learnt class labels.
@@ -273,7 +294,9 @@ class OpenAIFewShotClassifier(BaseEstimator, ClassifierMixin):
         temperature: float = 1.0,
         prompt: str = fewshot_prompt,
         max_new_tokens: int = 256,
-        max_retries: int = 5,
+        max_requests_per_minute: int = 3500,
+        max_tokens_per_minute: int = 90_000,
+        max_attempts_per_request: int = 5,
         fuzzy_match: bool = True,
     ):
         self.model_name = model_name
@@ -283,7 +306,9 @@ class OpenAIFewShotClassifier(BaseEstimator, ClassifierMixin):
         self.classes_ = None
         self.max_new_tokens = max_new_tokens
         self.fuzzy_match = fuzzy_match
-        self.max_retries = max_retries
+        self.max_requests_per_minute = max_requests_per_minute
+        self.max_tokens_per_minute = max_tokens_per_minute
+        self.max_attempts_per_request = max_attempts_per_request
         try:
             openai.api_key = os.environ["OPENAI_API_KEY"]
             openai.organization = os.environ.get("OPENAI_ORG")
@@ -391,7 +416,14 @@ class OpenAIFewShotClassifier(BaseEstimator, ClassifierMixin):
             "temperature": self.temperature,
             "max_tokens": self.max_new_tokens,
         }
-        responses = openai_chatcompletion(requests, chat_kwargs=parameters)
+        settings = {
+            "max_requests_per_minute": self.max_requests_per_minute,
+            "max_tokens_per_minute": self.max_tokens_per_minute,
+            "max_attempts_per_request": self.max_attempts_per_request,
+        }
+        responses = openai_chatcompletion(
+            requests, **settings, chat_kwargs=parameters
+        )
         results = []
         for response in responses:
             if not response:
