@@ -1,7 +1,5 @@
-import asyncio
 import os
-import time
-from datetime import datetime
+import warnings
 from typing import Iterable
 
 import numpy as np
@@ -10,6 +8,8 @@ from sklearn.base import BaseEstimator, ClassifierMixin
 from sklearn.exceptions import NotFittedError
 from thefuzz import process
 from tqdm import tqdm
+
+from stormtrooper.openai_async import openai_chatcompletion
 
 default_prompt = """
 ### System:
@@ -78,55 +78,6 @@ def create_messages(prompt: dict[str, str], data: dict[str, str]):
     return messages
 
 
-class RequestHandler:
-    """Utility class for handling requests asyncronously."""
-
-    def __init__(self, max_retries: int = 5):
-        self.current_minute = None
-        self.max_retries = max_retries
-        self.response_queue = []
-
-    def wait_for_next_minute(self):
-        """Waits for next minute before starting a new request."""
-        if self.current_minute is None:
-            self.current_minute = datetime.now().minute
-        while datetime.now().minute == self.current_minute:
-            time.sleep(1)
-        self.current_minute = datetime.now().minute
-
-    async def run_request(self, request: dict):
-        """Starts a single request asyncronously."""
-        res = None
-        rate_error = None
-        # Do N retries
-        for retry in range(self.max_retries):
-            try:
-                self.current_minute = datetime.now().minute
-                res = await openai.ChatCompletion.acreate(**request)
-                self.response_queue.append(res)
-                # We break out of the retry loop if the completion arrives
-                # intact
-                break
-            except openai.error.RateLimitError as e:
-                # If we exceed the rate limit we wait for the next minute.
-                self.wait_for_next_minute()
-                rate_error = e
-        if res is None:
-            # If we still didn't manage to get a response we propagate
-            # the error to top level.
-            raise openai.error.RateLimitError(
-                "Maximal rate limit exceeded, "
-                f"{self.max_retries} retries did not fix the issue."
-            ) from rate_error
-
-    async def run_requests(self, requests: Iterable[dict]) -> list:
-        """Runs all requests simultaneously."""
-        self.response_queue = []
-        for request in requests:
-            await self.run_request(request)
-        return self.response_queue
-
-
 class OpenAIZeroShotClassifier(BaseEstimator, ClassifierMixin):
     """Scikit-learn compatible zero shot classification
     with OpenAI's chat language models.
@@ -152,8 +103,6 @@ class OpenAIZeroShotClassifier(BaseEstimator, ClassifierMixin):
         Indicates whether the output lables should be fuzzy matched
         to the learnt class labels.
         This is useful when the model isn't giving specific enough answers.
-    progress_bar: bool, default True
-        Indicates whether a progress bar should be shown.
 
     Attributes
     ----------
@@ -169,7 +118,6 @@ class OpenAIZeroShotClassifier(BaseEstimator, ClassifierMixin):
         max_new_tokens: int = 256,
         max_retries: int = 5,
         fuzzy_match: bool = True,
-        progress_bar: bool = True,
     ):
         self.model_name = model_name
         self.prompt = prompt
@@ -178,7 +126,6 @@ class OpenAIZeroShotClassifier(BaseEstimator, ClassifierMixin):
         self.classes_ = None
         self.max_new_tokens = max_new_tokens
         self.fuzzy_match = fuzzy_match
-        self.progress_bar = progress_bar
         self.max_retries = max_retries
         try:
             openai.api_key = os.environ["OPENAI_API_KEY"]
@@ -234,24 +181,18 @@ class OpenAIZeroShotClassifier(BaseEstimator, ClassifierMixin):
         self.n_classes = len(self.classes_)
         return self
 
-    def _produce_requests(self, X: Iterable[str]) -> Iterable[dict]:
+    def _produce_requests(
+        self, X: Iterable[str]
+    ) -> Iterable[list[dict[str, str]]]:
         if self.classes_ is None:
             raise NotFittedError(
                 "Class labels have not been collected yet, please fit."
             )
-        if self.progress_bar:
-            X = tqdm(X)
         classes_str = ", ".join([f"'{label}'" for label in self.classes_])
         for text in X:
             prompt_data = dict(X=text, classes=classes_str)
             messages = create_messages(self.prompt_mapping_, prompt_data)
-            request = {
-                "model": self.model_name,
-                "messages": messages,
-                "temperature": self.temperature,
-                "max_tokens": self.max_new_tokens,
-            }
-            yield request
+            yield messages
 
     def predict(self, X: Iterable[str]) -> np.ndarray:
         """Predicts most probable class label for given texts.
@@ -270,12 +211,25 @@ class OpenAIZeroShotClassifier(BaseEstimator, ClassifierMixin):
             raise NotFittedError(
                 "Class labels have not been collected yet, please fit."
             )
-        handler = RequestHandler(self.max_retries)
-        requests = self._produce_requests(X)
-        responses = asyncio.run(handler.run_requests(requests))
+        requests = list(self._produce_requests(X))
+        parameters = {
+            "model": self.model_name,
+            "temperature": self.temperature,
+            "max_tokens": self.max_new_tokens,
+        }
+        responses = openai_chatcompletion(requests, chat_kwargs=parameters)
         results = []
         for response in responses:
-            label = response["choices"][0]["message"]["content"].strip()
+            if not response:
+                warnings.warn(
+                    f"Reponse empty due to errors: {response.api_errors}."
+                    " Result will be None."
+                )
+                results.append(None)
+                continue
+            label = response.response["choices"][0]["message"][
+                "content"
+            ].strip()
             if self.fuzzy_match and label not in self.classes_:
                 label, _ = process.extractOne(label, self.classes_)
             results.append(label)
@@ -307,8 +261,6 @@ class OpenAIFewShotClassifier(BaseEstimator, ClassifierMixin):
         Indicates whether the output lables should be fuzzy matched
         to the learnt class labels.
         This is useful when the model isn't giving specific enough answers.
-    progress_bar: bool, default True
-        Indicates whether a progress bar should be shown.
 
     Attributes
     ----------
@@ -324,7 +276,6 @@ class OpenAIFewShotClassifier(BaseEstimator, ClassifierMixin):
         max_new_tokens: int = 256,
         max_retries: int = 5,
         fuzzy_match: bool = True,
-        progress_bar: bool = True,
     ):
         self.model_name = model_name
         self.prompt = prompt
@@ -333,7 +284,6 @@ class OpenAIFewShotClassifier(BaseEstimator, ClassifierMixin):
         self.classes_ = None
         self.max_new_tokens = max_new_tokens
         self.fuzzy_match = fuzzy_match
-        self.progress_bar = progress_bar
         self.max_retries = max_retries
         try:
             openai.api_key = os.environ["OPENAI_API_KEY"]
@@ -393,13 +343,13 @@ class OpenAIFewShotClassifier(BaseEstimator, ClassifierMixin):
         self.n_classes = len(self.classes_)
         return self
 
-    def _produce_requests(self, X: Iterable[str]) -> Iterable[dict]:
+    def _produce_requests(
+        self, X: Iterable[str]
+    ) -> Iterable[list[dict[str, str]]]:
         if self.classes_ is None:
             raise NotFittedError(
                 "Class labels have not been collected yet, please fit."
             )
-        if self.progress_bar:
-            X = tqdm(X)
         text_examples = []
         for label, examples in self.examples_.items():
             examples = [f"'{example}'" for example in examples]
@@ -417,13 +367,7 @@ class OpenAIFewShotClassifier(BaseEstimator, ClassifierMixin):
                 self.prompt_mapping_,
                 prompt_data,
             )
-            request = {
-                "model": self.model_name,
-                "messages": messages,
-                "temperature": self.temperature,
-                "max_tokens": self.max_new_tokens,
-            }
-            yield request
+            yield messages
 
     def predict(self, X: Iterable[str]) -> np.ndarray:
         """Predicts most probable class label for given texts.
@@ -442,12 +386,25 @@ class OpenAIFewShotClassifier(BaseEstimator, ClassifierMixin):
             raise NotFittedError(
                 "Class labels have not been collected yet, please fit."
             )
-        handler = RequestHandler(self.max_retries)
-        requests = self._produce_requests(X)
-        responses = asyncio.run(handler.run_requests(requests))
+        requests = list(self._produce_requests(X))
+        parameters = {
+            "model": self.model_name,
+            "temperature": self.temperature,
+            "max_tokens": self.max_new_tokens,
+        }
+        responses = openai_chatcompletion(requests, chat_kwargs=parameters)
         results = []
         for response in responses:
-            label = response["choices"][0]["message"]["content"].strip()
+            if not response:
+                warnings.warn(
+                    f"Reponse empty due to errors: {response.api_errors}."
+                    " Result will be None."
+                )
+                results.append(None)
+                continue
+            label = response.response["choices"][0]["message"][
+                "content"
+            ].strip()
             if self.fuzzy_match and label not in self.classes_:
                 label, _ = process.extractOne(label, self.classes_)
             results.append(label)
