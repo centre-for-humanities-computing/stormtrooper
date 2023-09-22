@@ -54,6 +54,7 @@ In this example I am going to use Google's FLAN-T5.
    generative
    setfit
    openai
+   textgen
    prompting
    inference_on_gpu
 

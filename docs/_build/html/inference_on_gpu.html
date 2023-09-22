@@ -171,6 +171,7 @@
 <li class="toctree-l1"><a class="reference internal" href="generative.html">Generative models</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setfit.html">SetFit models</a></li>
 <li class="toctree-l1"><a class="reference internal" href="openai.html">OpenAI models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="textgen.html">Text Generation Inference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="prompting.html">Prompting</a></li>
 <li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Inference on GPU</a></li>
 </ul>
@@ -214,6 +215,11 @@
 <h1>Inference on GPU<a class="headerlink" href="#inference-on-gpu" title="Link to this heading">#</a></h1>
 <p>Models in stormtrooper run on the CPU by default, but you can influence this behaviour by specifying a device when initializing a model.</p>
 <p>Make sure to check whether you have a Cuda device available before trying to run inference on it.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Note that this does not include TGI and OpenAI models, as the models themselves run either on remote servers
+or in a separate process on your computer.</p>
+</div>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">torch</span>
 
 <span class="nb">print</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">())</span>

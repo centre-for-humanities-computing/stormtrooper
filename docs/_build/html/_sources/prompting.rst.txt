@@ -1,7 +1,7 @@
 Prompting
 =========
 
-Text2Text, Generative, and OpenAI models use a prompting approach for classification.
+Text2Text, Generative, TGI and OpenAI models use a prompting approach for classification.
 stormtrooper comes with default prompts, but these might not suit the model you want to use,
 or your use case might require a different prompting strategy from the default.
 stormtrooper allows you to specify custom prompts in these cases.
