@@ -15,12 +15,12 @@ default_prompt = """
 You are a classification model that is really good at following
 instructions and produces brief answers
 that users can use as data right away.
-Please follow the user's instructions as precisely as you can.
+Please follow the user's instructions as precisely as you can.</s>
 <|user|>
 Your task will be to classify a text document into one
 of the following classes: {classes}.
 Please respond with a single label that you think fits
-the document best.
+the document best.</s>
 Classify the following piece of text:
 '{X}'
 <|assistant|>
@@ -173,7 +173,7 @@ fewshot_prompt = """
 You are a classification model that is really good at following
 instructions and produces brief answers
 that users can use as data right away.
-Please follow the user's instructions as precisely as you can.
+Please follow the user's instructions as precisely as you can.</s>
 <|user|>
 Your task will be to classify a text document into one
 of the following classes: {classes}.
@@ -182,7 +182,7 @@ the document best.
 Here are a couple of examples of labels assigned by experts:
 {examples}
 Classify the following piece of text:
-'{X}'
+'{X}'</s>
 <|assistant|>
 """
 
