@@ -11,19 +11,19 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 __all__ = ["GenerativeZeroShotClassifier", "GenerativeFewShotClassifier"]
 
 default_prompt = """
-### System:
+<|system|>
 You are a classification model that is really good at following
 instructions and produces brief answers
 that users can use as data right away.
 Please follow the user's instructions as precisely as you can.
-### User:
+<|user|>
 Your task will be to classify a text document into one
 of the following classes: {classes}.
 Please respond with a single label that you think fits
 the document best.
 Classify the following piece of text:
 '{X}'
-### Assistant:
+<|assistant|>
 """
 
 
@@ -33,7 +33,7 @@ class GenerativeZeroShotClassifier(BaseEstimator, ClassifierMixin):
 
     Parameters
     ----------
-    model_name: str, default 'stabilityai/StableBeluga-7B'
+    model_name: str, default 'HuggingFaceH4/zephyr-7b-beta'
         Generative instruct model from HuggingFace.
     prompt: str, optional
         You can specify the prompt which will be used to prompt the model.
@@ -59,7 +59,7 @@ class GenerativeZeroShotClassifier(BaseEstimator, ClassifierMixin):
 
     def __init__(
         self,
-        model_name: str = "stabilityai/StableBeluga-7B",
+        model_name: str = "HuggingFaceH4/zephyr-7b-beta",
         prompt: str = default_prompt,
         max_new_tokens: int = 256,
         fuzzy_match: bool = True,
@@ -169,12 +169,12 @@ class GenerativeZeroShotClassifier(BaseEstimator, ClassifierMixin):
 
 
 fewshot_prompt = """
-### System:
+<|system|>
 You are a classification model that is really good at following
 instructions and produces brief answers
 that users can use as data right away.
 Please follow the user's instructions as precisely as you can.
-### User:
+<|user|>
 Your task will be to classify a text document into one
 of the following classes: {classes}.
 Please respond with a single label that you think fits
@@ -183,7 +183,7 @@ Here are a couple of examples of labels assigned by experts:
 {examples}
 Classify the following piece of text:
 '{X}'
-### Assistant:
+<|assistant|>
 """
 
 example_prompt = """
@@ -198,7 +198,7 @@ class GenerativeFewShotClassifier(BaseEstimator, ClassifierMixin):
 
     Parameters
     ----------
-    model_name: str, default 'stabilityai/StableBeluga-7B'
+    model_name: str, default 'HuggingFaceH4/zephyr-7b-beta'
         Generative instruct model from HuggingFace.
     prompt: str, optional
         You can specify the prompt which will be used to prompt the model.
@@ -226,7 +226,7 @@ class GenerativeFewShotClassifier(BaseEstimator, ClassifierMixin):
 
     def __init__(
         self,
-        model_name: str = "stabilityai/StableBeluga-7B",
+        model_name: str = "HuggingFaceH4/zephyr-7b-beta",
         prompt: str = default_prompt,
         max_new_tokens: int = 256,
         fuzzy_match: bool = True,
