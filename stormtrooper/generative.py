@@ -153,7 +153,7 @@ class GenerativeZeroShotClassifier(BaseEstimator, ClassifierMixin):
             X = tqdm(X)
         for text in X:
             messages = self.generate_messages(text)
-            response = self.pipe(messages, max_new_tokens=self.max_new_tokens)[0][
+            response = self.pipeline(messages, max_new_tokens=self.max_new_tokens)[0][
                 "generated_text"
             ][-1]
             label = response["content"]
@@ -325,7 +325,7 @@ class GenerativeFewShotClassifier(BaseEstimator, ClassifierMixin):
             X = tqdm(X)
         for text in X:
             messages = self.generate_messages(text)
-            response = self.pipe(messages, max_new_tokens=self.max_new_tokens)[0][
+            response = self.pipeline(messages, max_new_tokens=self.max_new_tokens)[0][
                 "generated_text"
             ][-1]
             label = response["content"]
