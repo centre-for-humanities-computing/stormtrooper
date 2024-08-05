@@ -39,6 +39,8 @@ class GenerativeZeroShotClassifier(BaseEstimator, ClassifierMixin):
         You can specify the prompt which will be used to prompt the model.
         Use placeholders to indicate where the class labels and the
         data should be placed in the prompt.
+    system_prompt: str, optional
+        System prompt for the model.
     max_new_tokens: int, default 256
         Maximum number of tokens the model should generate.
     fuzzy_match: bool, default True
@@ -192,6 +194,8 @@ class GenerativeFewShotClassifier(BaseEstimator, ClassifierMixin):
         You can specify the prompt which will be used to prompt the model.
         Use placeholders to indicate where the class labels and the
         data should be placed in the prompt.
+    system_prompt: str, optional
+        System prompt for the model.
     max_new_tokens: int, default 256
         Maximum number of tokens the model should generate.
     fuzzy_match: bool, default True
