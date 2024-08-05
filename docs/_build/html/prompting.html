@@ -1,15 +1,15 @@
 <!doctype html>
-<html class="no-js" lang="en" data-content_root="./">
+<html class="no-js" lang="en">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Inference on GPU" href="inference_on_gpu.html" /><link rel="prev" title="Text Generation Inference" href="textgen.html" />
 
-    <link rel="shortcut icon" href="_static/logo.svg"/><!-- Generated with Sphinx 7.2.6 and Furo 2023.09.10 -->
+    <link rel="shortcut icon" href="_static/logo.svg"/><meta name="generator" content="sphinx-5.1.1, furo 2022.06.21"/>
         <title>Prompting - stormtrooper</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=362ab14a" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=135e06be" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=36a5483c" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=40978830699223671f4072448e654b5958f38b89" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
     
     
 
@@ -159,7 +159,7 @@
   <span class="sidebar-brand-text">stormtrooper</span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
-  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input class="sidebar-search" placeholder=Search name="q" aria-label="Search">
   <input type="hidden" name="check_keywords" value="yes">
   <input type="hidden" name="area" value="default">
 </form>
@@ -196,8 +196,7 @@
           <span>Back to top</span>
         </a>
         <div class="content-icon-container">
-          
-<div class="theme-toggle-container theme-toggle-content">
+          <div class="theme-toggle-container theme-toggle-content">
             <button class="theme-toggle">
               <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
               <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
@@ -212,33 +211,32 @@
         </div>
         <article role="main">
           <section id="prompting">
-<h1>Prompting<a class="headerlink" href="#prompting" title="Link to this heading">#</a></h1>
-<p>Text2Text, Generative, TGI and OpenAI models use a prompting approach for classification.
-stormtrooper comes with default prompts, but these might not suit the model you want to use,
-or your use case might require a different prompting strategy from the default.
+<h1>Prompting<a class="headerlink" href="#prompting" title="Permalink to this heading">#</a></h1>
+<p>Text2Text, Generative, and OpenAI models use a prompting approach for classification.
+stormtrooper comes with default prompts, but these might not be the best for your model or use case.
 stormtrooper allows you to specify custom prompts in these cases.</p>
 <section id="templates">
-<h2>Templates<a class="headerlink" href="#templates" title="Link to this heading">#</a></h2>
+<h2>Templates<a class="headerlink" href="#templates" title="Permalink to this heading">#</a></h2>
 <p>Prompting in stormtrooper uses a templating approach, where the .format() method is called on prompts to
 insert labels and data.</p>
-<p>A zero-shot prompt for an instruct Llama model like Stable Beluga or for ChatGPT would look something like this (this is the default):</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">prompt</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">### System:</span>
+<p>You can specify both user and system prompts for Generative and OpenAI models:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">system_prompt</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">You are a classification model that is really good at following</span>
 <span class="s2">instructions and produces brief answers</span>
 <span class="s2">that users can use as data right away.</span>
 <span class="s2">Please follow the user&#39;s instructions as precisely as you can.</span>
-<span class="s2">### User:</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+<span class="n">user_prompt</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">Your task will be to classify a text document into one</span>
 <span class="s2">of the following classes: </span><span class="si">{classes}</span><span class="s2">.</span>
 <span class="s2">Please respond with a single label that you think fits</span>
 <span class="s2">the document best.</span>
 <span class="s2">Classify the following piece of text:</span>
 <span class="s2">&#39;</span><span class="si">{X}</span><span class="s2">&#39;</span>
-<span class="s2">### Assistant:</span>
 <span class="s2">&quot;&quot;&quot;</span>
 
-<span class="n">model</span> <span class="o">=</span> <span class="n">GenerativeZeroShotClassifier</span><span class="p">(</span><span class="s2">&quot;stabilityai/StableBeluga-13B&quot;</span><span class="p">,</span> <span class="n">prompt</span><span class="o">=</span><span class="n">prompt</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">GenerativeZeroShotClassifier</span><span class="p">(</span><span class="s2">&quot;stabilityai/StableBeluga-13B&quot;</span><span class="p">,</span> <span class="n">prompt</span><span class="o">=</span><span class="n">prompt</span><span class="p">,</span> <span class="n">system_prompt</span><span class="o">=</span><span class="n">system_prompt</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>X represents the current text in question, while classes represents the classes learned from the data.</p>
@@ -248,7 +246,7 @@ insert labels and data.</p>
 <span class="s2">as one of these classes: </span><span class="si">{classes}</span><span class="s2">. Please only respond</span>
 <span class="s2">with the class label in the same format as provided.</span>
 <span class="s2">Here are some examples of texts labelled by experts.</span>
-<span class="si">{examples}</span>
+<span class="si">{examples}</span><span class="s2"></span>
 <span class="s2">Label this piece of text:</span>
 <span class="s2">&#39;</span><span class="si">{X}</span><span class="s2">&#39;</span>
 <span class="s2">&quot;&quot;&quot;</span>
@@ -270,10 +268,10 @@ insert labels and data.</p>
                 </div>
                 <div class="title">Inference on GPU</div>
               </div>
-              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <svg><use href="#svg-arrow-right"></use></svg>
             </a>
           <a class="prev-page" href="textgen.html">
-              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <svg><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
@@ -295,7 +293,9 @@ insert labels and data.</p>
             
           </div>
           <div class="right-details">
-            
+            <div class="icons">
+              
+            </div>
           </div>
         </div>
         
@@ -307,7 +307,7 @@ insert labels and data.</p>
       <div class="toc-sticky toc-scroll">
         <div class="toc-title-container">
           <span class="toc-title">
-            On this page
+            Contents
           </span>
         </div>
         <div class="toc-tree-container">
@@ -326,9 +326,11 @@ insert labels and data.</p>
       
     </aside>
   </div>
-</div><script src="_static/documentation_options.js?v=37f418d5"></script>
-    <script src="_static/doctools.js?v=888ff710"></script>
-    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script src="_static/scripts/furo.js?v=32e29ea5"></script>
+</div><script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/scripts/furo.js"></script>
     </body>
 </html>

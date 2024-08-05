@@ -1,15 +1,15 @@
 <!doctype html>
-<html class="no-js" lang="en" data-content_root="./">
+<html class="no-js" lang="en">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Text Generation Inference" href="textgen.html" /><link rel="prev" title="SetFit models" href="setfit.html" />
 
-    <link rel="shortcut icon" href="_static/logo.svg"/><!-- Generated with Sphinx 7.2.6 and Furo 2023.09.10 -->
+    <link rel="shortcut icon" href="_static/logo.svg"/><meta name="generator" content="sphinx-5.1.1, furo 2022.06.21"/>
         <title>OpenAI models - stormtrooper</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=362ab14a" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=135e06be" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=36a5483c" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=40978830699223671f4072448e654b5958f38b89" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
     
     
 
@@ -159,7 +159,7 @@
   <span class="sidebar-brand-text">stormtrooper</span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
-  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input class="sidebar-search" placeholder=Search name="q" aria-label="Search">
   <input type="hidden" name="check_keywords" value="yes">
   <input type="hidden" name="area" value="default">
 </form>
@@ -196,8 +196,7 @@
           <span>Back to top</span>
         </a>
         <div class="content-icon-container">
-          
-<div class="theme-toggle-container theme-toggle-content">
+          <div class="theme-toggle-container theme-toggle-content">
             <button class="theme-toggle">
               <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
               <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
@@ -212,7 +211,7 @@
         </div>
         <article role="main">
           <section id="openai-models">
-<h1>OpenAI models<a class="headerlink" href="#openai-models" title="Link to this heading">#</a></h1>
+<h1>OpenAI models<a class="headerlink" href="#openai-models" title="Permalink to this heading">#</a></h1>
 <p>Stormtrooper gives you access to OpenAI’s chat models for zero and few-shot classification.
 You get full control over temperature settings, system and user prompts.
 In contrast to other packages, like scikit-llm, stormtrooper also uses Python’s asyncio to concurrently
@@ -220,13 +219,13 @@ interact with OpenAI’s API. This can give multiple times speedup on several ta
 <p>You can also set upper limits for number of requests and tokens per minute, so you don’t exceed your quota.
 This is by default set to the limit of the payed tier on OpenAI’s API.</p>
 <p>You need to install stormtrooper with optional dependencies.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>stormtrooper<span class="o">[</span>openai<span class="o">]</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install stormtrooper<span class="o">[</span>openai<span class="o">]</span>
 </pre></div>
 </div>
 <p>You additionally need to set the OpenAI API key as an environment variable.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">OPENAI_API_KEY</span><span class="o">=</span><span class="s2">&quot;sk-...&quot;</span>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span> <span class="nv">OPENAI_API_KEY</span><span class="o">=</span><span class="s2">&quot;sk-...&quot;</span>
 <span class="c1"># Setting organization is optional</span>
-<span class="nb">export</span><span class="w"> </span><span class="nv">OPENAI_ORG</span><span class="o">=</span><span class="s2">&quot;org-...&quot;</span>
+<span class="nb">export</span> <span class="nv">OPENAI_ORG</span><span class="o">=</span><span class="s2">&quot;org-...&quot;</span>
 </pre></div>
 </div>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">stormtrooper</span> <span class="kn">import</span> <span class="n">OpenAIZeroShotClassifier</span><span class="p">,</span> <span class="n">OpenAIFewShotClassifier</span>
@@ -254,306 +253,25 @@ This is by default set to the limit of the payed tier on OpenAI’s API.</p>
 <span class="k">assert</span> <span class="nb">list</span><span class="p">(</span><span class="n">predictions</span><span class="p">)</span> <span class="o">==</span> <span class="p">[</span><span class="s2">&quot;politics&quot;</span><span class="p">]</span>
 </pre></div>
 </div>
-<p>The format of the prompts is the same as with StableBeluga instruct models, and an error is raised if your prompt does not follow
-this format.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">prompt</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">### System:</span>
-<span class="s2">You are a helpful assistant</span>
-<span class="s2">### User:</span>
+<p>Prompts have to be specified the same way as with other generative models.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">system_prompt</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">You&#39;re a helpful assistant.</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+<span class="n">prompt</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">Your task will be to classify a text document into one</span>
 <span class="s2">of the following classes: </span><span class="si">{classes}</span><span class="s2">.</span>
 <span class="s2">Please respond with a single label that you think fits</span>
 <span class="s2">the document best.</span>
 <span class="s2">Classify the following piece of text:</span>
 <span class="s2">&#39;</span><span class="si">{X}</span><span class="s2">&#39;</span>
-<span class="s2">### Assistant:</span>
 <span class="s2">&quot;&quot;&quot;</span>
 
-<span class="n">model</span> <span class="o">=</span> <span class="n">OpenAIZeroShotClassifier</span><span class="p">(</span><span class="s2">&quot;gpt-4&quot;</span><span class="p">,</span> <span class="n">prompt</span><span class="o">=</span><span class="n">prompt</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">OpenAIZeroShotClassifier</span><span class="p">(</span><span class="s2">&quot;gpt-4&quot;</span><span class="p">,</span> <span class="n">prompt</span><span class="o">=</span><span class="n">prompt</span><span class="p">,</span> <span class="n">system_prompt</span><span class="o">=</span><span class="n">system_prompt</span><span class="p">)</span>
 </pre></div>
 </div>
 <section id="api-reference">
-<h2>API reference<a class="headerlink" href="#api-reference" title="Link to this heading">#</a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="stormtrooper.OpenAIZeroShotClassifier">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">stormtrooper.</span></span><span class="sig-name descname"><span class="pre">OpenAIZeroShotClassifier</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'gpt-3.5-turbo'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temperature</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prompt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">&quot;\n###</span> <span class="pre">System:\nYou</span> <span class="pre">are</span> <span class="pre">a</span> <span class="pre">classification</span> <span class="pre">model</span> <span class="pre">that</span> <span class="pre">is</span> <span class="pre">really</span> <span class="pre">good</span> <span class="pre">at</span> <span class="pre">following\ninstructions</span> <span class="pre">and</span> <span class="pre">produces</span> <span class="pre">brief</span> <span class="pre">answers\nthat</span> <span class="pre">users</span> <span class="pre">can</span> <span class="pre">use</span> <span class="pre">as</span> <span class="pre">data</span> <span class="pre">right</span> <span class="pre">away.\nPlease</span> <span class="pre">follow</span> <span class="pre">the</span> <span class="pre">user's</span> <span class="pre">instructions</span> <span class="pre">as</span> <span class="pre">precisely</span> <span class="pre">as</span> <span class="pre">you</span> <span class="pre">can.\n###</span> <span class="pre">User:\nYour</span> <span class="pre">task</span> <span class="pre">will</span> <span class="pre">be</span> <span class="pre">to</span> <span class="pre">classify</span> <span class="pre">a</span> <span class="pre">text</span> <span class="pre">document</span> <span class="pre">into</span> <span class="pre">one\nof</span> <span class="pre">the</span> <span class="pre">following</span> <span class="pre">classes:</span> <span class="pre">{classes}.\nPlease</span> <span class="pre">respond</span> <span class="pre">with</span> <span class="pre">a</span> <span class="pre">single</span> <span class="pre">label</span> <span class="pre">that</span> <span class="pre">you</span> <span class="pre">think</span> <span class="pre">fits\nthe</span> <span class="pre">document</span> <span class="pre">best.\nClassify</span> <span class="pre">the</span> <span class="pre">following</span> <span class="pre">piece</span> <span class="pre">of</span> <span class="pre">text:\n</span> <span class="pre">```{X}```\n###</span> <span class="pre">Assistant:\n&quot;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_new_tokens</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">256</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_requests_per_minute</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">3500</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_tokens_per_minute</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">90000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_attempts_per_request</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fuzzy_match</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#stormtrooper.OpenAIZeroShotClassifier" title="Link to this definition">#</a></dt>
-<dd><p>Scikit-learn compatible zero shot classification
-with OpenAI’s chat language models.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>model_name</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <em>default</em> <code class="docutils literal notranslate"><span class="pre">'gpt-3.5-turbo'</span></code>) – Name of OpenAI chat model.</p></li>
-<li><p><strong>temperature</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span> <span class="pre">=</span> <span class="pre">1.0</span></code>) – What sampling temperature to use, between 0 and 2.
-Higher values like 0.8 will make the output more random,
-while lower values like 0.2 will make it
-more focused and deterministic.</p></li>
-<li><p><strong>prompt</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <em>optional</em>) – You can specify the prompt which will be used to prompt the model.
-Use placeholders to indicate where the class labels and the
-data should be placed in the prompt.</p></li>
-<li><p><strong>max_new_tokens</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>, <em>default</em> <code class="docutils literal notranslate"><span class="pre">256</span></code>) – Maximum number of tokens the model should generate.</p></li>
-<li><p><strong>max_requests_per_minute</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>, <em>default</em> <code class="docutils literal notranslate"><span class="pre">3500</span></code>) – Maximum number of requests to send per minute.</p></li>
-<li><p><strong>max_tokens_per_minute</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>, <em>default</em> <code class="docutils literal notranslate"><span class="pre">90_000</span></code>) – Maximum number of tokens per minute.</p></li>
-<li><p><strong>max_attempts_per_request</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>, <em>default</em> <code class="docutils literal notranslate"><span class="pre">5</span></code>) – Maximum number of times a request shoulb be attempted if it fails
-for the first time.</p></li>
-<li><p><strong>fuzzy_match</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>, <em>default</em> <code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code>) – Indicates whether the output lables should be fuzzy matched
-to the learnt class labels.
-This is useful when the model isn’t giving specific enough answers.</p></li>
-</ul>
-</dd>
-</dl>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="stormtrooper.OpenAIZeroShotClassifier.classes_">
-<span class="sig-name descname"><span class="pre">classes_</span></span><a class="headerlink" href="#stormtrooper.OpenAIZeroShotClassifier.classes_" title="Link to this definition">#</a></dt>
-<dd><p>Class names learned from the labels.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">array</span></code> of <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="stormtrooper.OpenAIZeroShotClassifier.fit">
-<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#stormtrooper.OpenAIZeroShotClassifier.fit" title="Link to this definition">#</a></dt>
-<dd><p>Learns class labels.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>X</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Any</span></code>) – Ignored</p></li>
-<li><p><strong>y</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">iterable</span></code> of <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Iterable of class labels.
-Should at least contain a representative sample
-of potential labels.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Fitted model.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">self</span></code></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="stormtrooper.OpenAIZeroShotClassifier.partial_fit">
-<span class="sig-name descname"><span class="pre">partial_fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#stormtrooper.OpenAIZeroShotClassifier.partial_fit" title="Link to this definition">#</a></dt>
-<dd><p>Learns class labels.
-Can learn new labels if new are encountered in the data.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>X</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Any</span></code>) – Ignored</p></li>
-<li><p><strong>y</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">iterable</span></code> of <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Iterable of class labels.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Fitted model.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">self</span></code></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="stormtrooper.OpenAIZeroShotClassifier.predict">
-<span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#stormtrooper.OpenAIZeroShotClassifier.predict" title="Link to this definition">#</a></dt>
-<dd><p>Predicts most probable class label for given texts.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>X</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">iterable</span></code> of <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Texts to label.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Array of string class labels.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">array</span></code> of <code class="xref py py-class docutils literal notranslate"><span class="pre">shape</span> <span class="pre">(n_texts)</span></code></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="stormtrooper.OpenAIZeroShotClassifier.set_score_request">
-<span class="sig-name descname"><span class="pre">set_score_request</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_weight</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'$UNCHANGED$'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#stormtrooper.OpenAIZeroShotClassifier" title="stormtrooper.openai.OpenAIZeroShotClassifier"><span class="pre">OpenAIZeroShotClassifier</span></a></span></span><a class="headerlink" href="#stormtrooper.OpenAIZeroShotClassifier.set_score_request" title="Link to this definition">#</a></dt>
-<dd><p>Request metadata passed to the <code class="docutils literal notranslate"><span class="pre">score</span></code> method.</p>
-<p>Note that this method is only relevant if
-<code class="docutils literal notranslate"><span class="pre">enable_metadata_routing=True</span></code> (see <code class="xref py py-func docutils literal notranslate"><span class="pre">sklearn.set_config()</span></code>).
-Please see <span class="xref std std-ref">User Guide</span> on how the routing
-mechanism works.</p>
-<p>The options for each parameter are:</p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">True</span></code>: metadata is requested, and passed to <code class="docutils literal notranslate"><span class="pre">score</span></code> if provided. The request is ignored if metadata is not provided.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">False</span></code>: metadata is not requested and the meta-estimator will not pass it to <code class="docutils literal notranslate"><span class="pre">score</span></code>.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">None</span></code>: metadata is not requested, and the meta-estimator will raise an error if the user provides it.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">str</span></code>: metadata should be passed to the meta-estimator with this given alias instead of the original name.</p></li>
-</ul>
-<p>The default (<code class="docutils literal notranslate"><span class="pre">sklearn.utils.metadata_routing.UNCHANGED</span></code>) retains the
-existing request. This allows you to change the request for some
-parameters and not others.</p>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 1.3.</span></p>
-</div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>This method is only relevant if this estimator is used as a
-sub-estimator of a meta-estimator, e.g. used inside a
-<code class="xref py py-class docutils literal notranslate"><span class="pre">pipeline.Pipeline</span></code>. Otherwise it has no effect.</p>
-</div>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>sample_weight</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code>, or <code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>,                     default=sklearn.utils.metadata_routing.UNCHANGED) – Metadata routing for <code class="docutils literal notranslate"><span class="pre">sample_weight</span></code> parameter in <code class="docutils literal notranslate"><span class="pre">score</span></code>.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>self</strong> – The updated object.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="stormtrooper.OpenAIFewShotClassifier">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">stormtrooper.</span></span><span class="sig-name descname"><span class="pre">OpenAIFewShotClassifier</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'gpt-3.5-turbo'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temperature</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prompt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">&quot;\n###</span> <span class="pre">System:\nYou</span> <span class="pre">are</span> <span class="pre">a</span> <span class="pre">classification</span> <span class="pre">model</span> <span class="pre">that</span> <span class="pre">is</span> <span class="pre">really</span> <span class="pre">good</span> <span class="pre">at</span> <span class="pre">following\ninstructions</span> <span class="pre">and</span> <span class="pre">produces</span> <span class="pre">brief</span> <span class="pre">answers\nthat</span> <span class="pre">users</span> <span class="pre">can</span> <span class="pre">use</span> <span class="pre">as</span> <span class="pre">data</span> <span class="pre">right</span> <span class="pre">away.\nPlease</span> <span class="pre">follow</span> <span class="pre">the</span> <span class="pre">user's</span> <span class="pre">instructions</span> <span class="pre">as</span> <span class="pre">precisely</span> <span class="pre">as</span> <span class="pre">you</span> <span class="pre">can.\n###</span> <span class="pre">User:\nYour</span> <span class="pre">task</span> <span class="pre">will</span> <span class="pre">be</span> <span class="pre">to</span> <span class="pre">classify</span> <span class="pre">a</span> <span class="pre">text</span> <span class="pre">document</span> <span class="pre">into</span> <span class="pre">one\nof</span> <span class="pre">the</span> <span class="pre">following</span> <span class="pre">classes:</span> <span class="pre">{classes}.\nPlease</span> <span class="pre">respond</span> <span class="pre">with</span> <span class="pre">a</span> <span class="pre">single</span> <span class="pre">label</span> <span class="pre">that</span> <span class="pre">you</span> <span class="pre">think</span> <span class="pre">fits\nthe</span> <span class="pre">document</span> <span class="pre">best.\nHere</span> <span class="pre">are</span> <span class="pre">a</span> <span class="pre">couple</span> <span class="pre">of</span> <span class="pre">examples</span> <span class="pre">of</span> <span class="pre">labels</span> <span class="pre">assigned</span> <span class="pre">by</span> <span class="pre">experts:\n{examples}\nClassify</span> <span class="pre">the</span> <span class="pre">following</span> <span class="pre">piece</span> <span class="pre">of</span> <span class="pre">text:\n'{X}'\n###</span> <span class="pre">Assistant:\n&quot;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_new_tokens</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">256</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_requests_per_minute</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">3500</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_tokens_per_minute</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">90000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_attempts_per_request</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fuzzy_match</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#stormtrooper.OpenAIFewShotClassifier" title="Link to this definition">#</a></dt>
-<dd><p>Scikit-learn compatible few shot classification
-with OpenAI’s chat language models.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>model_name</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <em>default</em> <code class="docutils literal notranslate"><span class="pre">'gpt-3.5-turbo'</span></code>) – Name of OpenAI chat model.</p></li>
-<li><p><strong>temperature</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span> <span class="pre">=</span> <span class="pre">1.0</span></code>) – What sampling temperature to use, between 0 and 2.
-Higher values like 0.8 will make the output more random,
-while lower values like 0.2 will make it
-more focused and deterministic.</p></li>
-<li><p><strong>prompt</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <em>optional</em>) – You can specify the prompt which will be used to prompt the model.
-Use placeholders to indicate where the class labels and the
-data should be placed in the prompt.</p></li>
-<li><p><strong>max_new_tokens</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>, <em>default</em> <code class="docutils literal notranslate"><span class="pre">256</span></code>) – Maximum number of tokens the model should generate.</p></li>
-<li><p><strong>max_requests_per_minute</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>, <em>default</em> <code class="docutils literal notranslate"><span class="pre">3500</span></code>) – Maximum number of requests to send per minute.</p></li>
-<li><p><strong>max_tokens_per_minute</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>, <em>default</em> <code class="docutils literal notranslate"><span class="pre">90_000</span></code>) – Maximum number of tokens per minute.</p></li>
-<li><p><strong>max_attempts_per_request</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>, <em>default</em> <code class="docutils literal notranslate"><span class="pre">5</span></code>) – Maximum number of times a request shoulb be attempted if it fails
-for the first time.</p></li>
-<li><p><strong>fuzzy_match</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>, <em>default</em> <code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code>) – Indicates whether the output lables should be fuzzy matched
-to the learnt class labels.
-This is useful when the model isn’t giving specific enough answers.</p></li>
-</ul>
-</dd>
-</dl>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="stormtrooper.OpenAIFewShotClassifier.classes_">
-<span class="sig-name descname"><span class="pre">classes_</span></span><a class="headerlink" href="#stormtrooper.OpenAIFewShotClassifier.classes_" title="Link to this definition">#</a></dt>
-<dd><p>Class names learned from the labels.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">array</span></code> of <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="stormtrooper.OpenAIFewShotClassifier.fit">
-<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#stormtrooper.OpenAIFewShotClassifier.fit" title="Link to this definition">#</a></dt>
-<dd><p>Learns class labels.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>X</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">iterable</span></code> of <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Examples to pass into the few-shot prompt.</p></li>
-<li><p><strong>y</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">iterable</span></code> of <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Iterable of class labels.
-Should at least contain a representative sample
-of potential labels.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Fitted model.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">self</span></code></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="stormtrooper.OpenAIFewShotClassifier.partial_fit">
-<span class="sig-name descname"><span class="pre">partial_fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#stormtrooper.OpenAIFewShotClassifier.partial_fit" title="Link to this definition">#</a></dt>
-<dd><p>Learns class labels.
-Can learn new labels if new are encountered in the data.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>X</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">iterable</span></code> of <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Examples to pass into the few-shot prompt.</p></li>
-<li><p><strong>y</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">iterable</span></code> of <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Iterable of class labels.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Fitted model.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">self</span></code></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="stormtrooper.OpenAIFewShotClassifier.predict">
-<span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#stormtrooper.OpenAIFewShotClassifier.predict" title="Link to this definition">#</a></dt>
-<dd><p>Predicts most probable class label for given texts.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>X</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">iterable</span></code> of <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Texts to label.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Array of string class labels.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">array</span></code> of <code class="xref py py-class docutils literal notranslate"><span class="pre">shape</span> <span class="pre">(n_texts)</span></code></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="stormtrooper.OpenAIFewShotClassifier.set_score_request">
-<span class="sig-name descname"><span class="pre">set_score_request</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_weight</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'$UNCHANGED$'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#stormtrooper.OpenAIFewShotClassifier" title="stormtrooper.openai.OpenAIFewShotClassifier"><span class="pre">OpenAIFewShotClassifier</span></a></span></span><a class="headerlink" href="#stormtrooper.OpenAIFewShotClassifier.set_score_request" title="Link to this definition">#</a></dt>
-<dd><p>Request metadata passed to the <code class="docutils literal notranslate"><span class="pre">score</span></code> method.</p>
-<p>Note that this method is only relevant if
-<code class="docutils literal notranslate"><span class="pre">enable_metadata_routing=True</span></code> (see <code class="xref py py-func docutils literal notranslate"><span class="pre">sklearn.set_config()</span></code>).
-Please see <span class="xref std std-ref">User Guide</span> on how the routing
-mechanism works.</p>
-<p>The options for each parameter are:</p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">True</span></code>: metadata is requested, and passed to <code class="docutils literal notranslate"><span class="pre">score</span></code> if provided. The request is ignored if metadata is not provided.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">False</span></code>: metadata is not requested and the meta-estimator will not pass it to <code class="docutils literal notranslate"><span class="pre">score</span></code>.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">None</span></code>: metadata is not requested, and the meta-estimator will raise an error if the user provides it.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">str</span></code>: metadata should be passed to the meta-estimator with this given alias instead of the original name.</p></li>
-</ul>
-<p>The default (<code class="docutils literal notranslate"><span class="pre">sklearn.utils.metadata_routing.UNCHANGED</span></code>) retains the
-existing request. This allows you to change the request for some
-parameters and not others.</p>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 1.3.</span></p>
-</div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>This method is only relevant if this estimator is used as a
-sub-estimator of a meta-estimator, e.g. used inside a
-<code class="xref py py-class docutils literal notranslate"><span class="pre">pipeline.Pipeline</span></code>. Otherwise it has no effect.</p>
-</div>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>sample_weight</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code>, or <code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>,                     default=sklearn.utils.metadata_routing.UNCHANGED) – Metadata routing for <code class="docutils literal notranslate"><span class="pre">sample_weight</span></code> parameter in <code class="docutils literal notranslate"><span class="pre">score</span></code>.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>self</strong> – The updated object.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
+<h2>API reference<a class="headerlink" href="#api-reference" title="Permalink to this heading">#</a></h2>
 </section>
 </section>
 
@@ -569,10 +287,10 @@ sub-estimator of a meta-estimator, e.g. used inside a
                 </div>
                 <div class="title">Text Generation Inference</div>
               </div>
-              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <svg><use href="#svg-arrow-right"></use></svg>
             </a>
           <a class="prev-page" href="setfit.html">
-              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <svg><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
@@ -594,7 +312,9 @@ sub-estimator of a meta-estimator, e.g. used inside a
             
           </div>
           <div class="right-details">
-            
+            <div class="icons">
+              
+            </div>
           </div>
         </div>
         
@@ -606,32 +326,14 @@ sub-estimator of a meta-estimator, e.g. used inside a
       <div class="toc-sticky toc-scroll">
         <div class="toc-title-container">
           <span class="toc-title">
-            On this page
+            Contents
           </span>
         </div>
         <div class="toc-tree-container">
           <div class="toc-tree">
             <ul>
 <li><a class="reference internal" href="#">OpenAI models</a><ul>
-<li><a class="reference internal" href="#api-reference">API reference</a><ul>
-<li><a class="reference internal" href="#stormtrooper.OpenAIZeroShotClassifier"><code class="docutils literal notranslate"><span class="pre">OpenAIZeroShotClassifier</span></code></a><ul>
-<li><a class="reference internal" href="#stormtrooper.OpenAIZeroShotClassifier.classes_"><code class="docutils literal notranslate"><span class="pre">OpenAIZeroShotClassifier.classes_</span></code></a></li>
-<li><a class="reference internal" href="#stormtrooper.OpenAIZeroShotClassifier.fit"><code class="docutils literal notranslate"><span class="pre">OpenAIZeroShotClassifier.fit()</span></code></a></li>
-<li><a class="reference internal" href="#stormtrooper.OpenAIZeroShotClassifier.partial_fit"><code class="docutils literal notranslate"><span class="pre">OpenAIZeroShotClassifier.partial_fit()</span></code></a></li>
-<li><a class="reference internal" href="#stormtrooper.OpenAIZeroShotClassifier.predict"><code class="docutils literal notranslate"><span class="pre">OpenAIZeroShotClassifier.predict()</span></code></a></li>
-<li><a class="reference internal" href="#stormtrooper.OpenAIZeroShotClassifier.set_score_request"><code class="docutils literal notranslate"><span class="pre">OpenAIZeroShotClassifier.set_score_request()</span></code></a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#stormtrooper.OpenAIFewShotClassifier"><code class="docutils literal notranslate"><span class="pre">OpenAIFewShotClassifier</span></code></a><ul>
-<li><a class="reference internal" href="#stormtrooper.OpenAIFewShotClassifier.classes_"><code class="docutils literal notranslate"><span class="pre">OpenAIFewShotClassifier.classes_</span></code></a></li>
-<li><a class="reference internal" href="#stormtrooper.OpenAIFewShotClassifier.fit"><code class="docutils literal notranslate"><span class="pre">OpenAIFewShotClassifier.fit()</span></code></a></li>
-<li><a class="reference internal" href="#stormtrooper.OpenAIFewShotClassifier.partial_fit"><code class="docutils literal notranslate"><span class="pre">OpenAIFewShotClassifier.partial_fit()</span></code></a></li>
-<li><a class="reference internal" href="#stormtrooper.OpenAIFewShotClassifier.predict"><code class="docutils literal notranslate"><span class="pre">OpenAIFewShotClassifier.predict()</span></code></a></li>
-<li><a class="reference internal" href="#stormtrooper.OpenAIFewShotClassifier.set_score_request"><code class="docutils literal notranslate"><span class="pre">OpenAIFewShotClassifier.set_score_request()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
+<li><a class="reference internal" href="#api-reference">API reference</a></li>
 </ul>
 </li>
 </ul>
@@ -643,9 +345,11 @@ sub-estimator of a meta-estimator, e.g. used inside a
       
     </aside>
   </div>
-</div><script src="_static/documentation_options.js?v=37f418d5"></script>
-    <script src="_static/doctools.js?v=888ff710"></script>
-    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script src="_static/scripts/furo.js?v=32e29ea5"></script>
+</div><script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/scripts/furo.js"></script>
     </body>
 </html>
