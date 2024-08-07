@@ -1,15 +1,15 @@
 <!doctype html>
-<html class="no-js" lang="en" data-content_root="./">
+<html class="no-js" lang="en">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light dark"><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="SetFit models" href="setfit.html" /><link rel="prev" title="Text2Text models" href="text2text.html" />
 
-    <link rel="shortcut icon" href="_static/logo.svg"/><!-- Generated with Sphinx 7.2.6 and Furo 2023.09.10 -->
+    <link rel="shortcut icon" href="_static/logo.svg"/><meta name="generator" content="sphinx-5.1.1, furo 2022.06.21"/>
         <title>Generative models - stormtrooper</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=362ab14a" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=135e06be" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=36a5483c" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=40978830699223671f4072448e654b5958f38b89" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
     
     
 
@@ -159,7 +159,7 @@
   <span class="sidebar-brand-text">stormtrooper</span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
-  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input class="sidebar-search" placeholder=Search name="q" aria-label="Search">
   <input type="hidden" name="check_keywords" value="yes">
   <input type="hidden" name="area" value="default">
 </form>
@@ -196,8 +196,7 @@
           <span>Back to top</span>
         </a>
         <div class="content-icon-container">
-          
-<div class="theme-toggle-container theme-toggle-content">
+          <div class="theme-toggle-container theme-toggle-content">
             <button class="theme-toggle">
               <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
               <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
@@ -212,7 +211,7 @@
         </div>
         <article role="main">
           <section id="generative-models">
-<h1>Generative models<a class="headerlink" href="#generative-models" title="Link to this heading">#</a></h1>
+<h1>Generative models<a class="headerlink" href="#generative-models" title="Permalink to this heading">#</a></h1>
 <p>stormtrooper also supports fully generative model architectures both for few-shot and zero-shot learning.
 It’s worth noting that most instruct finetuned generative models are quite hefty and take a lot of resources
 to run. We recommend that you exhaust all other options before you turn to generative models.</p>
@@ -242,300 +241,7 @@ to run. We recommend that you exhaust all other options before you turn to gener
 </pre></div>
 </div>
 <section id="api-reference">
-<h2>API reference<a class="headerlink" href="#api-reference" title="Link to this heading">#</a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="stormtrooper.GenerativeZeroShotClassifier">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">stormtrooper.</span></span><span class="sig-name descname"><span class="pre">GenerativeZeroShotClassifier</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'stabilityai/StableBeluga-7B'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prompt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">&quot;\n###</span> <span class="pre">System:\nYou</span> <span class="pre">are</span> <span class="pre">a</span> <span class="pre">classification</span> <span class="pre">model</span> <span class="pre">that</span> <span class="pre">is</span> <span class="pre">really</span> <span class="pre">good</span> <span class="pre">at</span> <span class="pre">following\ninstructions</span> <span class="pre">and</span> <span class="pre">produces</span> <span class="pre">brief</span> <span class="pre">answers\nthat</span> <span class="pre">users</span> <span class="pre">can</span> <span class="pre">use</span> <span class="pre">as</span> <span class="pre">data</span> <span class="pre">right</span> <span class="pre">away.\nPlease</span> <span class="pre">follow</span> <span class="pre">the</span> <span class="pre">user's</span> <span class="pre">instructions</span> <span class="pre">as</span> <span class="pre">precisely</span> <span class="pre">as</span> <span class="pre">you</span> <span class="pre">can.\n###</span> <span class="pre">User:\nYour</span> <span class="pre">task</span> <span class="pre">will</span> <span class="pre">be</span> <span class="pre">to</span> <span class="pre">classify</span> <span class="pre">a</span> <span class="pre">text</span> <span class="pre">document</span> <span class="pre">into</span> <span class="pre">one\nof</span> <span class="pre">the</span> <span class="pre">following</span> <span class="pre">classes:</span> <span class="pre">{classes}.\nPlease</span> <span class="pre">respond</span> <span class="pre">with</span> <span class="pre">a</span> <span class="pre">single</span> <span class="pre">label</span> <span class="pre">that</span> <span class="pre">you</span> <span class="pre">think</span> <span class="pre">fits\nthe</span> <span class="pre">document</span> <span class="pre">best.\nClassify</span> <span class="pre">the</span> <span class="pre">following</span> <span class="pre">piece</span> <span class="pre">of</span> <span class="pre">text:\n'{X}'\n###</span> <span class="pre">Assistant:\n&quot;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_new_tokens</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">256</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fuzzy_match</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">progress_bar</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'cpu'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#stormtrooper.GenerativeZeroShotClassifier" title="Link to this definition">#</a></dt>
-<dd><p>Scikit-learn compatible zero shot classification
-with generative language models.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>model_name</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <em>default</em> <code class="docutils literal notranslate"><span class="pre">'stabilityai/StableBeluga-7B'</span></code>) – Generative instruct model from HuggingFace.</p></li>
-<li><p><strong>prompt</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <em>optional</em>) – You can specify the prompt which will be used to prompt the model.
-Use placeholders to indicate where the class labels and the
-data should be placed in the prompt.</p></li>
-<li><p><strong>max_new_tokens</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>, <em>default</em> <code class="docutils literal notranslate"><span class="pre">256</span></code>) – Maximum number of tokens the model should generate.</p></li>
-<li><p><strong>fuzzy_match</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>, <em>default</em> <code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code>) – Indicates whether the output lables should be fuzzy matched
-to the learnt class labels.
-This is useful when the model isn’t giving specific enough answers.</p></li>
-<li><p><strong>progress_bar</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>, <em>default</em> <code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code>) – Indicates whether a progress bar should be shown.</p></li>
-<li><p><strong>device</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <em>default</em> <code class="docutils literal notranslate"><span class="pre">'cpu'</span></code>) – Indicates which device should be used for classification.
-Models are by default run on CPU.</p></li>
-</ul>
-</dd>
-</dl>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="stormtrooper.GenerativeZeroShotClassifier.classes_">
-<span class="sig-name descname"><span class="pre">classes_</span></span><a class="headerlink" href="#stormtrooper.GenerativeZeroShotClassifier.classes_" title="Link to this definition">#</a></dt>
-<dd><p>Class names learned from the labels.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">array</span></code> of <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="stormtrooper.GenerativeZeroShotClassifier.fit">
-<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#stormtrooper.GenerativeZeroShotClassifier.fit" title="Link to this definition">#</a></dt>
-<dd><p>Learns class labels.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>X</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Any</span></code>) – Ignored</p></li>
-<li><p><strong>y</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">iterable</span></code> of <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Iterable of class labels.
-Should at least contain a representative sample
-of potential labels.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Fitted model.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">self</span></code></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="stormtrooper.GenerativeZeroShotClassifier.partial_fit">
-<span class="sig-name descname"><span class="pre">partial_fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#stormtrooper.GenerativeZeroShotClassifier.partial_fit" title="Link to this definition">#</a></dt>
-<dd><p>Learns class labels.
-Can learn new labels if new are encountered in the data.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>X</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Any</span></code>) – Ignored</p></li>
-<li><p><strong>y</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">iterable</span></code> of <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Iterable of class labels.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Fitted model.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">self</span></code></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="stormtrooper.GenerativeZeroShotClassifier.predict">
-<span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#stormtrooper.GenerativeZeroShotClassifier.predict" title="Link to this definition">#</a></dt>
-<dd><p>Predicts most probable class label for given texts.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>X</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">iterable</span></code> of <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Texts to label.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Array of string class labels.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">array</span></code> of <code class="xref py py-class docutils literal notranslate"><span class="pre">shape</span> <span class="pre">(n_texts)</span></code></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="stormtrooper.GenerativeZeroShotClassifier.set_score_request">
-<span class="sig-name descname"><span class="pre">set_score_request</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_weight</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'$UNCHANGED$'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#stormtrooper.GenerativeZeroShotClassifier" title="stormtrooper.generative.GenerativeZeroShotClassifier"><span class="pre">GenerativeZeroShotClassifier</span></a></span></span><a class="headerlink" href="#stormtrooper.GenerativeZeroShotClassifier.set_score_request" title="Link to this definition">#</a></dt>
-<dd><p>Request metadata passed to the <code class="docutils literal notranslate"><span class="pre">score</span></code> method.</p>
-<p>Note that this method is only relevant if
-<code class="docutils literal notranslate"><span class="pre">enable_metadata_routing=True</span></code> (see <code class="xref py py-func docutils literal notranslate"><span class="pre">sklearn.set_config()</span></code>).
-Please see <span class="xref std std-ref">User Guide</span> on how the routing
-mechanism works.</p>
-<p>The options for each parameter are:</p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">True</span></code>: metadata is requested, and passed to <code class="docutils literal notranslate"><span class="pre">score</span></code> if provided. The request is ignored if metadata is not provided.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">False</span></code>: metadata is not requested and the meta-estimator will not pass it to <code class="docutils literal notranslate"><span class="pre">score</span></code>.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">None</span></code>: metadata is not requested, and the meta-estimator will raise an error if the user provides it.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">str</span></code>: metadata should be passed to the meta-estimator with this given alias instead of the original name.</p></li>
-</ul>
-<p>The default (<code class="docutils literal notranslate"><span class="pre">sklearn.utils.metadata_routing.UNCHANGED</span></code>) retains the
-existing request. This allows you to change the request for some
-parameters and not others.</p>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 1.3.</span></p>
-</div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>This method is only relevant if this estimator is used as a
-sub-estimator of a meta-estimator, e.g. used inside a
-<code class="xref py py-class docutils literal notranslate"><span class="pre">pipeline.Pipeline</span></code>. Otherwise it has no effect.</p>
-</div>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>sample_weight</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code>, or <code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>,                     default=sklearn.utils.metadata_routing.UNCHANGED) – Metadata routing for <code class="docutils literal notranslate"><span class="pre">sample_weight</span></code> parameter in <code class="docutils literal notranslate"><span class="pre">score</span></code>.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>self</strong> – The updated object.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="stormtrooper.GenerativeFewShotClassifier">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">stormtrooper.</span></span><span class="sig-name descname"><span class="pre">GenerativeFewShotClassifier</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'stabilityai/StableBeluga-7B'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prompt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">&quot;\n###</span> <span class="pre">System:\nYou</span> <span class="pre">are</span> <span class="pre">a</span> <span class="pre">classification</span> <span class="pre">model</span> <span class="pre">that</span> <span class="pre">is</span> <span class="pre">really</span> <span class="pre">good</span> <span class="pre">at</span> <span class="pre">following\ninstructions</span> <span class="pre">and</span> <span class="pre">produces</span> <span class="pre">brief</span> <span class="pre">answers\nthat</span> <span class="pre">users</span> <span class="pre">can</span> <span class="pre">use</span> <span class="pre">as</span> <span class="pre">data</span> <span class="pre">right</span> <span class="pre">away.\nPlease</span> <span class="pre">follow</span> <span class="pre">the</span> <span class="pre">user's</span> <span class="pre">instructions</span> <span class="pre">as</span> <span class="pre">precisely</span> <span class="pre">as</span> <span class="pre">you</span> <span class="pre">can.\n###</span> <span class="pre">User:\nYour</span> <span class="pre">task</span> <span class="pre">will</span> <span class="pre">be</span> <span class="pre">to</span> <span class="pre">classify</span> <span class="pre">a</span> <span class="pre">text</span> <span class="pre">document</span> <span class="pre">into</span> <span class="pre">one\nof</span> <span class="pre">the</span> <span class="pre">following</span> <span class="pre">classes:</span> <span class="pre">{classes}.\nPlease</span> <span class="pre">respond</span> <span class="pre">with</span> <span class="pre">a</span> <span class="pre">single</span> <span class="pre">label</span> <span class="pre">that</span> <span class="pre">you</span> <span class="pre">think</span> <span class="pre">fits\nthe</span> <span class="pre">document</span> <span class="pre">best.\nClassify</span> <span class="pre">the</span> <span class="pre">following</span> <span class="pre">piece</span> <span class="pre">of</span> <span class="pre">text:\n'{X}'\n###</span> <span class="pre">Assistant:\n&quot;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_new_tokens</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">256</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fuzzy_match</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">progress_bar</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'cpu'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#stormtrooper.GenerativeFewShotClassifier" title="Link to this definition">#</a></dt>
-<dd><p>Scikit-learn compatible few shot classification
-with generative language models.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>model_name</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <em>default</em> <code class="docutils literal notranslate"><span class="pre">'stabilityai/StableBeluga-7B'</span></code>) – Generative instruct model from HuggingFace.</p></li>
-<li><p><strong>prompt</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <em>optional</em>) – You can specify the prompt which will be used to prompt the model.
-Use placeholders to indicate where the class labels and the
-data should be placed in the prompt.</p></li>
-<li><p><strong>max_new_tokens</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>, <em>default</em> <code class="docutils literal notranslate"><span class="pre">256</span></code>) – Maximum number of tokens the model should generate.</p></li>
-<li><p><strong>fuzzy_match</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>, <em>default</em> <code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code>) – Indicates whether the output lables should be fuzzy matched
-to the learnt class labels.
-This is useful when the model isn’t giving specific enough answers.</p></li>
-<li><p><strong>progress_bar</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>, <em>default</em> <code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code>) – Indicates whether a progress bar should be shown.</p></li>
-<li><p><strong>device</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <em>default</em> <code class="docutils literal notranslate"><span class="pre">'cpu'</span></code>) – Indicates which device should be used for classification.
-Models are by default run on CPU.</p></li>
-</ul>
-</dd>
-</dl>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="stormtrooper.GenerativeFewShotClassifier.classes_">
-<span class="sig-name descname"><span class="pre">classes_</span></span><a class="headerlink" href="#stormtrooper.GenerativeFewShotClassifier.classes_" title="Link to this definition">#</a></dt>
-<dd><p>Class names learned from the labels.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">array</span></code> of <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="stormtrooper.GenerativeFewShotClassifier.examples_">
-<span class="sig-name descname"><span class="pre">examples_</span></span><a class="headerlink" href="#stormtrooper.GenerativeFewShotClassifier.examples_" title="Link to this definition">#</a></dt>
-<dd><p>Learned examples for each class.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code> of <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code> to <code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code> of <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="stormtrooper.GenerativeFewShotClassifier.fit">
-<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#stormtrooper.GenerativeFewShotClassifier.fit" title="Link to this definition">#</a></dt>
-<dd><p>Learns class labels.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>X</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">iterable</span></code> of <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Examples to pass into the few-shot prompt.</p></li>
-<li><p><strong>y</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">iterable</span></code> of <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Iterable of class labels.
-Should at least contain a representative sample
-of potential labels.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Fitted model.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">self</span></code></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="stormtrooper.GenerativeFewShotClassifier.partial_fit">
-<span class="sig-name descname"><span class="pre">partial_fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#stormtrooper.GenerativeFewShotClassifier.partial_fit" title="Link to this definition">#</a></dt>
-<dd><p>Learns class labels.
-Can learn new labels if new are encountered in the data.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>X</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">iterable</span></code> of <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Examples to pass into the few-shot prompt.</p></li>
-<li><p><strong>y</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">iterable</span></code> of <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Iterable of class labels.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Fitted model.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">self</span></code></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="stormtrooper.GenerativeFewShotClassifier.run_prompt">
-<span class="sig-name descname"><span class="pre">run_prompt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prompt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#stormtrooper.GenerativeFewShotClassifier.run_prompt" title="Link to this definition">#</a></dt>
-<dd><p>Runs prompt with the model and returns the result.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="stormtrooper.GenerativeFewShotClassifier.generate_prompt">
-<span class="sig-name descname"><span class="pre">generate_prompt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#stormtrooper.GenerativeFewShotClassifier.generate_prompt" title="Link to this definition">#</a></dt>
-<dd><p>Generates prompt based on the model’s parameters.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="stormtrooper.GenerativeFewShotClassifier.predict">
-<span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#stormtrooper.GenerativeFewShotClassifier.predict" title="Link to this definition">#</a></dt>
-<dd><p>Predicts most probable class label for given texts.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>X</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">iterable</span></code> of <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Texts to label.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Array of string class labels.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">array</span></code> of <code class="xref py py-class docutils literal notranslate"><span class="pre">shape</span> <span class="pre">(n_texts)</span></code></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="stormtrooper.GenerativeFewShotClassifier.set_score_request">
-<span class="sig-name descname"><span class="pre">set_score_request</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_weight</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'$UNCHANGED$'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#stormtrooper.GenerativeFewShotClassifier" title="stormtrooper.generative.GenerativeFewShotClassifier"><span class="pre">GenerativeFewShotClassifier</span></a></span></span><a class="headerlink" href="#stormtrooper.GenerativeFewShotClassifier.set_score_request" title="Link to this definition">#</a></dt>
-<dd><p>Request metadata passed to the <code class="docutils literal notranslate"><span class="pre">score</span></code> method.</p>
-<p>Note that this method is only relevant if
-<code class="docutils literal notranslate"><span class="pre">enable_metadata_routing=True</span></code> (see <code class="xref py py-func docutils literal notranslate"><span class="pre">sklearn.set_config()</span></code>).
-Please see <span class="xref std std-ref">User Guide</span> on how the routing
-mechanism works.</p>
-<p>The options for each parameter are:</p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">True</span></code>: metadata is requested, and passed to <code class="docutils literal notranslate"><span class="pre">score</span></code> if provided. The request is ignored if metadata is not provided.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">False</span></code>: metadata is not requested and the meta-estimator will not pass it to <code class="docutils literal notranslate"><span class="pre">score</span></code>.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">None</span></code>: metadata is not requested, and the meta-estimator will raise an error if the user provides it.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">str</span></code>: metadata should be passed to the meta-estimator with this given alias instead of the original name.</p></li>
-</ul>
-<p>The default (<code class="docutils literal notranslate"><span class="pre">sklearn.utils.metadata_routing.UNCHANGED</span></code>) retains the
-existing request. This allows you to change the request for some
-parameters and not others.</p>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 1.3.</span></p>
-</div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>This method is only relevant if this estimator is used as a
-sub-estimator of a meta-estimator, e.g. used inside a
-<code class="xref py py-class docutils literal notranslate"><span class="pre">pipeline.Pipeline</span></code>. Otherwise it has no effect.</p>
-</div>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>sample_weight</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code>, or <code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>,                     default=sklearn.utils.metadata_routing.UNCHANGED) – Metadata routing for <code class="docutils literal notranslate"><span class="pre">sample_weight</span></code> parameter in <code class="docutils literal notranslate"><span class="pre">score</span></code>.</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>self</strong> – The updated object.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
+<h2>API reference<a class="headerlink" href="#api-reference" title="Permalink to this heading">#</a></h2>
 </section>
 </section>
 
@@ -551,10 +257,10 @@ sub-estimator of a meta-estimator, e.g. used inside a
                 </div>
                 <div class="title">SetFit models</div>
               </div>
-              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <svg><use href="#svg-arrow-right"></use></svg>
             </a>
           <a class="prev-page" href="text2text.html">
-              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <svg><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">
                 <div class="context">
                   <span>Previous</span>
@@ -576,7 +282,9 @@ sub-estimator of a meta-estimator, e.g. used inside a
             
           </div>
           <div class="right-details">
-            
+            <div class="icons">
+              
+            </div>
           </div>
         </div>
         
@@ -588,35 +296,14 @@ sub-estimator of a meta-estimator, e.g. used inside a
       <div class="toc-sticky toc-scroll">
         <div class="toc-title-container">
           <span class="toc-title">
-            On this page
+            Contents
           </span>
         </div>
         <div class="toc-tree-container">
           <div class="toc-tree">
             <ul>
 <li><a class="reference internal" href="#">Generative models</a><ul>
-<li><a class="reference internal" href="#api-reference">API reference</a><ul>
-<li><a class="reference internal" href="#stormtrooper.GenerativeZeroShotClassifier"><code class="docutils literal notranslate"><span class="pre">GenerativeZeroShotClassifier</span></code></a><ul>
-<li><a class="reference internal" href="#stormtrooper.GenerativeZeroShotClassifier.classes_"><code class="docutils literal notranslate"><span class="pre">GenerativeZeroShotClassifier.classes_</span></code></a></li>
-<li><a class="reference internal" href="#stormtrooper.GenerativeZeroShotClassifier.fit"><code class="docutils literal notranslate"><span class="pre">GenerativeZeroShotClassifier.fit()</span></code></a></li>
-<li><a class="reference internal" href="#stormtrooper.GenerativeZeroShotClassifier.partial_fit"><code class="docutils literal notranslate"><span class="pre">GenerativeZeroShotClassifier.partial_fit()</span></code></a></li>
-<li><a class="reference internal" href="#stormtrooper.GenerativeZeroShotClassifier.predict"><code class="docutils literal notranslate"><span class="pre">GenerativeZeroShotClassifier.predict()</span></code></a></li>
-<li><a class="reference internal" href="#stormtrooper.GenerativeZeroShotClassifier.set_score_request"><code class="docutils literal notranslate"><span class="pre">GenerativeZeroShotClassifier.set_score_request()</span></code></a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#stormtrooper.GenerativeFewShotClassifier"><code class="docutils literal notranslate"><span class="pre">GenerativeFewShotClassifier</span></code></a><ul>
-<li><a class="reference internal" href="#stormtrooper.GenerativeFewShotClassifier.classes_"><code class="docutils literal notranslate"><span class="pre">GenerativeFewShotClassifier.classes_</span></code></a></li>
-<li><a class="reference internal" href="#stormtrooper.GenerativeFewShotClassifier.examples_"><code class="docutils literal notranslate"><span class="pre">GenerativeFewShotClassifier.examples_</span></code></a></li>
-<li><a class="reference internal" href="#stormtrooper.GenerativeFewShotClassifier.fit"><code class="docutils literal notranslate"><span class="pre">GenerativeFewShotClassifier.fit()</span></code></a></li>
-<li><a class="reference internal" href="#stormtrooper.GenerativeFewShotClassifier.partial_fit"><code class="docutils literal notranslate"><span class="pre">GenerativeFewShotClassifier.partial_fit()</span></code></a></li>
-<li><a class="reference internal" href="#stormtrooper.GenerativeFewShotClassifier.run_prompt"><code class="docutils literal notranslate"><span class="pre">GenerativeFewShotClassifier.run_prompt()</span></code></a></li>
-<li><a class="reference internal" href="#stormtrooper.GenerativeFewShotClassifier.generate_prompt"><code class="docutils literal notranslate"><span class="pre">GenerativeFewShotClassifier.generate_prompt()</span></code></a></li>
-<li><a class="reference internal" href="#stormtrooper.GenerativeFewShotClassifier.predict"><code class="docutils literal notranslate"><span class="pre">GenerativeFewShotClassifier.predict()</span></code></a></li>
-<li><a class="reference internal" href="#stormtrooper.GenerativeFewShotClassifier.set_score_request"><code class="docutils literal notranslate"><span class="pre">GenerativeFewShotClassifier.set_score_request()</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
+<li><a class="reference internal" href="#api-reference">API reference</a></li>
 </ul>
 </li>
 </ul>
@@ -628,9 +315,11 @@ sub-estimator of a meta-estimator, e.g. used inside a
       
     </aside>
   </div>
-</div><script src="_static/documentation_options.js?v=37f418d5"></script>
-    <script src="_static/doctools.js?v=888ff710"></script>
-    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script src="_static/scripts/furo.js?v=32e29ea5"></script>
+</div><script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/scripts/furo.js"></script>
     </body>
 </html>

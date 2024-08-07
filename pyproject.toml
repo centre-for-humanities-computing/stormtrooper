@@ -3,7 +3,7 @@ line-length = 79
 
 [tool.poetry]
 name = "stormtrooper"
-version = "0.4.1"
+version = "0.5.0"
 description = "Transformer/LLM-based zero and few-shot classification in scikit-learn pipelines"
 authors = ["Márton Kardos <power.up1163@gmail.com>"]
 license = "MIT"

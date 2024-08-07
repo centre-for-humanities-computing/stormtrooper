@@ -26,11 +26,24 @@ Other packages promise to provide at least similar functionality (scikit-llm), w
     - We opted for as bare-bones of an implementation and little coupling as possible. The library works at the lowest level of abstraction possible, and we hope our code will be rather easy for others to understand and contribute to.
 
 
-## News :fire:
+## New in version 0.5.0
 
-- Hugging Face's Text Generation Inference is now supported in stormtrooper and can be used to speed up inference with generative and text2text LLMs. (0.4.1)
-- You can now use OpenAI's chat models with blazing fast :zap: async inference. (0.4.0)
-- SetFit is now part of the library and can be used in scikit-learn workflows. (0.3.0)
+stormtrooper now uses chat templates from HuggingFace transformers for generative models.
+This means that you no longer have to pass model-specific prompt templates to these and can define system and user prompts separately.
+
+```python
+from stormtrooper import GenerativeZeroShotClassifier
+
+system_prompt = "You're a helpful assistant."
+user_prompt = """
+Classify a text into one of the following categories: {classes}
+Text to clasify:
+"{X}"
+"""
+
+model = GenerativeZeroShotClassifier().fit(None, ["political", "not political"])
+model.predict("Joe Biden is no longer the candidate of the Democrats.")
+```
 
 
 ## Examples
@@ -61,23 +74,7 @@ classifier = ZeroShotClassifier().fit(None, class_labels)
 Generative models (GPT, Llama):
 ```python
 from stormtrooper import GenerativeZeroShotClassifier
-# You can hand-craft prompts if it suits you better, but
-# a default prompt is already available
-prompt = """
-### System:
-You are a literary expert tasked with labeling texts according to
-their content.
-Please follow the user's instructions as precisely as you can.
-### User:
-Your task will be to classify a text document into one
-of the following classes: {classes}.
-Please respond with a single label that you think fits
-the document best.
-Classify the following piece of text:
-'{X}'
-### Assistant:
-"""
-classifier = GenerativeZeroShotClassifier(prompt=prompt).fit(None, class_labels)
+classifier = GenerativeZeroShotClassifier("meta-llama/Meta-Llama-3.1-8B-Instruct").fit(None, class_labels)
 ```
 
 Text2Text models (T5):

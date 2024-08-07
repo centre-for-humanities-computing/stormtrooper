@@ -10,29 +10,23 @@ from thefuzz import process
 
 from stormtrooper.openai_async import openai_chatcompletion
 
-default_prompt = """
-### System:
+default_system_prompt = """
 You are a classification model that is really good at following
 instructions and produces brief answers
 that users can use as data right away.
 Please follow the user's instructions as precisely as you can.
-### User:
+"""
+
+default_prompt = """
 Your task will be to classify a text document into one
 of the following classes: {classes}.
 Please respond with a single label that you think fits
 the document best.
 Classify the following piece of text:
  ```{X}```
-### Assistant:
 """
 
-fewshot_prompt = """
-### System:
-You are a classification model that is really good at following
-instructions and produces brief answers
-that users can use as data right away.
-Please follow the user's instructions as precisely as you can.
-### User:
+default_fewshot_prompt = """
 Your task will be to classify a text document into one
 of the following classes: {classes}.
 Please respond with a single label that you think fits
@@ -41,7 +35,6 @@ Here are a couple of examples of labels assigned by experts:
 {examples}
 Classify the following piece of text:
 '{X}'
-### Assistant:
 """
 
 example_prompt = """
@@ -94,6 +87,8 @@ class OpenAIZeroShotClassifier(BaseEstimator, ClassifierMixin):
         You can specify the prompt which will be used to prompt the model.
         Use placeholders to indicate where the class labels and the
         data should be placed in the prompt.
+    system_prompt: str, optional
+        System prompt for the model.
     max_new_tokens: int, default 256
         Maximum number of tokens the model should generate.
     max_requests_per_minute: int, default 3500
@@ -119,6 +114,7 @@ class OpenAIZeroShotClassifier(BaseEstimator, ClassifierMixin):
         model_name: str = "gpt-3.5-turbo",
         temperature: float = 1.0,
         prompt: str = default_prompt,
+        system_prompt: str = default_system_prompt,
         max_new_tokens: int = 256,
         max_requests_per_minute: int = 3500,
         max_tokens_per_minute: int = 90_000,
@@ -127,8 +123,8 @@ class OpenAIZeroShotClassifier(BaseEstimator, ClassifierMixin):
     ):
         self.model_name = model_name
         self.prompt = prompt
+        self.system_prompt = system_prompt
         self.temperature = temperature
-        self.prompt_mapping_ = parse_prompt(prompt)
         self.classes_ = None
         self.max_new_tokens = max_new_tokens
         self.fuzzy_match = fuzzy_match
@@ -139,9 +135,7 @@ class OpenAIZeroShotClassifier(BaseEstimator, ClassifierMixin):
             openai.api_key = os.environ["OPENAI_API_KEY"]
             openai.organization = os.environ.get("OPENAI_ORG")
         except KeyError as e:
-            raise KeyError(
-                "Environment variable OPENAI_API_KEY not specified."
-            ) from e
+            raise KeyError("Environment variable OPENAI_API_KEY not specified.") from e
 
     def fit(self, X, y: Iterable[str]):
         """Learns class labels.
@@ -163,6 +157,14 @@ class OpenAIZeroShotClassifier(BaseEstimator, ClassifierMixin):
         self.classes_ = np.array(list(set(y)))
         self.n_classes = len(self.classes_)
         return self
+
+    def generate_messages(self, text: str) -> list[dict[str, str]]:
+        classes_in_quotes = [f"'{label}'" for label in self.classes_]
+        prompt = self.prompt.format(X=text, classes=", ".join(classes_in_quotes))
+        return [
+            {"role": "system", "content": self.system_prompt},
+            {"role": "user", "content": prompt},
+        ]
 
     def partial_fit(self, X, y: Iterable[str]):
         """Learns class labels.
@@ -189,17 +191,13 @@ class OpenAIZeroShotClassifier(BaseEstimator, ClassifierMixin):
         self.n_classes = len(self.classes_)
         return self
 
-    def _produce_requests(
-        self, X: Iterable[str]
-    ) -> Iterable[list[dict[str, str]]]:
+    def _produce_requests(self, X: Iterable[str]) -> Iterable[list[dict[str, str]]]:
         if self.classes_ is None:
             raise NotFittedError(
                 "Class labels have not been collected yet, please fit."
             )
-        classes_str = ", ".join([f"'{label}'" for label in self.classes_])
         for text in X:
-            prompt_data = dict(X=text, classes=classes_str)
-            messages = create_messages(self.prompt_mapping_, prompt_data)
+            messages = self.generate_messages(text)
             yield messages
 
     def predict(self, X: Iterable[str]) -> np.ndarray:
@@ -230,9 +228,7 @@ class OpenAIZeroShotClassifier(BaseEstimator, ClassifierMixin):
             "max_tokens_per_minute": self.max_tokens_per_minute,
             "max_attempts_per_request": self.max_attempts_per_request,
         }
-        responses = openai_chatcompletion(
-            requests, **settings, chat_kwargs=parameters
-        )
+        responses = openai_chatcompletion(requests, **settings, chat_kwargs=parameters)
         results = []
         for response in responses:
             if not response:
@@ -242,9 +238,7 @@ class OpenAIZeroShotClassifier(BaseEstimator, ClassifierMixin):
                 )
                 results.append(None)
                 continue
-            label = response.response["choices"][0]["message"][
-                "content"
-            ].strip()
+            label = response.response["choices"][0]["message"]["content"].strip()
             if self.fuzzy_match and label not in self.classes_:
                 label, _ = process.extractOne(label, self.classes_)
             results.append(label)
@@ -268,6 +262,8 @@ class OpenAIFewShotClassifier(BaseEstimator, ClassifierMixin):
         You can specify the prompt which will be used to prompt the model.
         Use placeholders to indicate where the class labels and the
         data should be placed in the prompt.
+    system_prompt: str, optional
+        System prompt for the model.
     max_new_tokens: int, default 256
         Maximum number of tokens the model should generate.
     max_requests_per_minute: int, default 3500
@@ -292,7 +288,8 @@ class OpenAIFewShotClassifier(BaseEstimator, ClassifierMixin):
         self,
         model_name: str = "gpt-3.5-turbo",
         temperature: float = 1.0,
-        prompt: str = fewshot_prompt,
+        prompt: str = default_fewshot_prompt,
+        system_prompt: str = default_system_prompt,
         max_new_tokens: int = 256,
         max_requests_per_minute: int = 3500,
         max_tokens_per_minute: int = 90_000,
@@ -313,9 +310,7 @@ class OpenAIFewShotClassifier(BaseEstimator, ClassifierMixin):
             openai.api_key = os.environ["OPENAI_API_KEY"]
             openai.organization = os.environ.get("OPENAI_ORG")
         except KeyError as e:
-            raise KeyError(
-                "Environment variable OPENAI_API_KEY not specified."
-            ) from e
+            raise KeyError("Environment variable OPENAI_API_KEY not specified.") from e
 
     def fit(self, X: Iterable[str], y: Iterable[str]):
         """Learns class labels.
@@ -343,6 +338,26 @@ class OpenAIFewShotClassifier(BaseEstimator, ClassifierMixin):
         self.n_classes = len(self.classes_)
         return self
 
+    def generate_messages(self, text: str) -> list[dict[str, str]]:
+        if self.examples_ is None:
+            raise NotFittedError("No examples have been learnt yet, fit the model.")
+        text_examples = []
+        for label, examples in self.examples_.items():
+            examples = [f"'{example}'" for example in examples]
+            subprompt = example_prompt.format(label=label, examples="\n".join(examples))
+            text_examples.append(subprompt)
+        examples_subprompt = "\n".join(text_examples)
+        classes_in_quotes = [f"'{label}'" for label in self.classes_]
+        prompt = self.prompt.format(
+            X=text,
+            classes=", ".join(classes_in_quotes),
+            examples=examples_subprompt,
+        )
+        return [
+            {"role": "system", "content": self.system_prompt},
+            {"role": "user", "content": prompt},
+        ]
+
     def partial_fit(self, X: Iterable[str], y: Iterable[str]):
         """Learns class labels.
         Can learn new labels if new are encountered in the data.
@@ -367,30 +382,13 @@ class OpenAIFewShotClassifier(BaseEstimator, ClassifierMixin):
         self.n_classes = len(self.classes_)
         return self
 
-    def _produce_requests(
-        self, X: Iterable[str]
-    ) -> Iterable[list[dict[str, str]]]:
+    def _produce_requests(self, X: Iterable[str]) -> Iterable[list[dict[str, str]]]:
         if self.classes_ is None:
             raise NotFittedError(
                 "Class labels have not been collected yet, please fit."
             )
-        text_examples = []
-        for label, examples in self.examples_.items():
-            examples = [f"'{example}'" for example in examples]
-            subprompt = example_prompt.format(
-                label=label, examples="\n".join(examples)
-            )
-            text_examples.append(subprompt)
-        examples_subprompt = "\n".join(text_examples)
-        classes_str = ", ".join([f"'{label}'" for label in self.classes_])
         for text in X:
-            prompt_data = dict(
-                X=text, classes=classes_str, examples=examples_subprompt
-            )
-            messages = create_messages(
-                self.prompt_mapping_,
-                prompt_data,
-            )
+            messages = self.generate_messages(text)
             yield messages
 
     def predict(self, X: Iterable[str]) -> np.ndarray:
@@ -421,9 +419,7 @@ class OpenAIFewShotClassifier(BaseEstimator, ClassifierMixin):
             "max_tokens_per_minute": self.max_tokens_per_minute,
             "max_attempts_per_request": self.max_attempts_per_request,
         }
-        responses = openai_chatcompletion(
-            requests, **settings, chat_kwargs=parameters
-        )
+        responses = openai_chatcompletion(requests, **settings, chat_kwargs=parameters)
         results = []
         for response in responses:
             if not response:
@@ -433,9 +429,7 @@ class OpenAIFewShotClassifier(BaseEstimator, ClassifierMixin):
                 )
                 results.append(None)
                 continue
-            label = response.response["choices"][0]["message"][
-                "content"
-            ].strip()
+            label = response.response["choices"][0]["message"]["content"].strip()
             if self.fuzzy_match and label not in self.classes_:
                 label, _ = process.extractOne(label, self.classes_)
             results.append(label)

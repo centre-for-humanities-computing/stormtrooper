@@ -54,25 +54,24 @@ And a few shot example with ChatGPT 4:
    assert list(predictions) == ["politics"]
 
 
-The format of the prompts is the same as with StableBeluga instruct models, and an error is raised if your prompt does not follow
-this format.
+Prompts have to be specified the same way as with other generative models.
 
 .. code-block:: python
+
+   system_prompt = """
+   You're a helpful assistant.
+   """
   
    prompt = """
-   ### System:
-   You are a helpful assistant
-   ### User:
    Your task will be to classify a text document into one
    of the following classes: {classes}.
    Please respond with a single label that you think fits
    the document best.
    Classify the following piece of text:
    '{X}'
-   ### Assistant:
    """
 
-   model = OpenAIZeroShotClassifier("gpt-4", prompt=prompt)
+   model = OpenAIZeroShotClassifier("gpt-4", prompt=prompt, system_prompt=system_prompt)
 
 
 API reference
