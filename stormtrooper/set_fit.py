@@ -67,4 +67,14 @@ class SetFitClassifier(BaseEstimator, ClassifierMixin):
         X = list(X)
         if getattr(self, "classes_", None) is None:
             raise NotFittedError("You need to fit the model before running inference.")
-        return self.model(X)
+        if getattr(self, "examples_", None) is None:
+            pred_ind = self.model(X)
+            pred = self.classes_[pred_ind]
+            # Produces a single str when one example is passed
+            # and we do not like that.
+            if isinstance(pred, str):
+                pred = np.array([pred])
+            return pred
+
+        else:
+            return np.array(self.model(X))
