@@ -43,23 +43,6 @@ Examples of texts labelled '{label}':
 """
 
 
-def parse_prompt(prompt_template: str) -> dict[str, str]:
-    """Parses prompt from string template."""
-    prompt_parts = prompt_template.split("###")
-    prompt_parts = [part.strip() for part in prompt_parts]
-    prompt_parts = [part for part in prompt_parts if part]
-    prompt_mapping = {}
-    for part in prompt_parts:
-        role, content = part.split(":", 1)
-        prompt_mapping[role] = content
-    if set(prompt_mapping.keys()) != {"System", "User", "Assistant"}:
-        raise ValueError(
-            "Prompts should have a 'System', 'User' and 'Assistant'"
-            "section in OpenAI models."
-        )
-    return prompt_mapping
-
-
 def create_messages(prompt: dict[str, str], data: dict[str, str]):
     """Produces messages to send to the chat API
     from prompt and data to infuse."""
@@ -298,8 +281,8 @@ class OpenAIFewShotClassifier(BaseEstimator, ClassifierMixin):
     ):
         self.model_name = model_name
         self.prompt = prompt
+        self.system_prompt = system_prompt
         self.temperature = temperature
-        self.prompt_mapping_ = parse_prompt(prompt)
         self.classes_ = None
         self.max_new_tokens = max_new_tokens
         self.fuzzy_match = fuzzy_match
