@@ -1,40 +1,27 @@
 from stormtrooper.error import NotInstalled
-from stormtrooper.generative import (GenerativeFewShotClassifier,
-                                     GenerativeZeroShotClassifier)
-from stormtrooper.text2text import (Text2TextFewShotClassifier,
-                                    Text2TextZeroShotClassifier)
-from stormtrooper.text_gen_inference import (TGIFewShotClassifier,
-                                             TGIZeroShotClassifier)
+from stormtrooper.generative import GenerativeClassifier
+from stormtrooper.text2text import Text2TextClassifier
+from stormtrooper.text_gen_inference import TGIFewShotClassifier, TGIZeroShotClassifier
+from stormtrooper.trooper import Trooper
 from stormtrooper.zero_shot import ZeroShotClassifier
 
 try:
-    from stormtrooper.set_fit import (SetFitFewShotClassifier,
-                                      SetFitZeroShotClassifier)
+    from stormtrooper.set_fit import SetFitClassifier
 except ModuleNotFoundError:
-    SetFitZeroShotClassifier = NotInstalled(
-        "SetFitZeroShotClassifier", "setfit"
-    )
-    SetFitFewShotClassifier = NotInstalled("SetFitFewShotClassifier", "setfit")
+    SetFitClassifier = NotInstalled("SetFitClassifier", "setfit")
 
 try:
-    from stormtrooper.openai import (OpenAIFewShotClassifier,
-                                     OpenAIZeroShotClassifier)
+    from stormtrooper.openai import OpenAIClassifier
 except ModuleNotFoundError:
-    OpenAIZeroShotClassifier = NotInstalled(
-        "OpenAIZeroShotClassifier", "openai"
-    )
-    OpenAIFewShotClassifier = NotInstalled("OpenAIFewShotClassifier", "openai")
+    OpenAIClassifier = NotInstalled("OpenAIClassifier", "openai")
 
 __all__ = [
-    "GenerativeZeroShotClassifier",
-    "GenerativeFewShotClassifier",
-    "Text2TextZeroShotClassifier",
-    "Text2TextFewShotClassifier",
+    "GenerativeClassifier",
+    "OpenAIClassifier",
+    "SetFitClassifier",
+    "Text2TextClassifier",
     "ZeroShotClassifier",
-    "SetFitZeroShotClassifier",
-    "SetFitFewShotClassifier",
-    "OpenAIFewShotClassifier",
-    "OpenAIZeroShotClassifier",
     "TGIZeroShotClassifier",
     "TGIFewShotClassifier",
+    "Trooper",
 ]
