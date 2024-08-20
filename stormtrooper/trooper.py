@@ -6,7 +6,8 @@ from transformers import AutoConfig
 from transformers.models.auto.modeling_auto import (
     MODEL_FOR_CAUSAL_LM_MAPPING_NAMES,
     MODEL_FOR_SEQ_TO_SEQ_CAUSAL_LM_MAPPING_NAMES,
-    MODEL_FOR_SEQUENCE_CLASSIFICATION_MAPPING_NAMES)
+    MODEL_FOR_SEQUENCE_CLASSIFICATION_MAPPING_NAMES,
+)
 
 from stormtrooper.error import NotInstalled
 from stormtrooper.generative import GenerativeClassifier
@@ -72,6 +73,27 @@ def get_model_type(model_name: str) -> str:
 
 
 class Trooper(BaseEstimator, ClassifierMixin):
+    """Generic zero-shot, few-shot classifier.
+    Automatically determines the type based on model name.
+
+    Parameters
+    ----------
+    model_name: str
+        Name of the base model to use.
+        Could be a model from OpenAI or HuggingFace Hub.
+    progress_bar: bool, default True
+        Indicates whether a progress bar should be displayed during inference.
+    device: str, default "cpu"
+        The device the model should run on (only valid for locally run models).
+    prompt: str, default None
+        Prompt to use for promptable models.
+    system_prompt: str, default None
+        System prompt to use for chat models.
+    fuzzy_match: bool, default True
+        Indicates whether responses should be fuzzy matched to the closest class name,
+        when using a generative model.
+    """
+
     def __init__(
         self,
         model_name: str,
@@ -103,17 +125,62 @@ class Trooper(BaseEstimator, ClassifierMixin):
         self.model = model_type_to_cls[self.model_type](**model_kwargs)
 
     def fit(self, X: Optional[Iterable[str]], y: Iterable[str]):
+        """Learns class labels and potential examples.
+
+        Parameters
+        ----------
+        X: iterable of str
+            Examples to use in few-shot prompts.
+            Pass None, when no examples are to be used.
+        y: iterable of str
+            Class labels.
+        """
         self.model.fit(X, y)
         return self
 
     def partial_fit(self, X: Optional[Iterable[str]], y: Iterable[str]):
+        """Learns class labels and potential examples in a batch.
+
+        Parameters
+        ----------
+        X: iterable of str
+            Examples to use in few-shot prompts.
+            Pass None, when no examples are to be used.
+        y: iterable of str
+            Class labels.
+        """
         self.model.partial_fit(X, y)
         return self
 
     def predict(self, X: Iterable[str]) -> np.ndarray:
+        """Predicts labels for a set of examples
+
+        Parameters
+        ----------
+        X: iterable of str
+            Documents to predict labels for.
+
+        Returns
+        -------
+        ndarray of shape (n_documents,)
+            Labels for documents.
+        """
         return self.model.predict(X)
 
     def predict_proba(self, X: Iterable[str]) -> np.ndarray:
+        """Predicts probability of each label.
+        Only available for certain models.
+
+        Parameters
+        ----------
+        X: iterable of str
+            Documents to predict labels for.
+
+        Returns
+        -------
+        ndarray of shape (n_documents, n_labels)
+            Label distributions for documents.
+        """
         return self.model.predict_proba(X)
 
     @property
