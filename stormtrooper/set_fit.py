@@ -2,14 +2,27 @@ from typing import Iterable, Optional
 
 import datasets
 import numpy as np
-from setfit import (SetFitModel, Trainer, TrainingArguments,
-                    get_templated_dataset)
+from setfit import SetFitModel, Trainer, TrainingArguments, get_templated_dataset
 from sklearn.base import BaseEstimator, ClassifierMixin
 from sklearn.exceptions import NotFittedError
 
 
 class SetFitClassifier(BaseEstimator, ClassifierMixin):
-    """"""
+    """Zero and few-shot classifier using the SetFit technique with encoder models.
+
+    Parameters
+    ----------
+    model_name: str, default 'sentence-transformers/all-MiniLM-L6-v2'
+        Name of the encoder model.
+    sample_size: int, default 8
+        Number of  training samples to generate (only taken into account when zero-shot)
+    device: str, default 'cpu'
+        Device to train and run the model on.
+    n_epochs: int, default 10
+        Number of trainig epochs.
+    batch_size: int, default 32
+        Batch size to use during training.
+    """
 
     def __init__(
         self,

@@ -8,6 +8,35 @@ __all__ = ["Text2TextClassifier"]
 
 
 class Text2TextClassifier(ChatClassifier):
+    """Zero and few-shot classification
+    with text2text language models.
+
+    Parameters
+    ----------
+    model_name: str, default 'google/flan-t5-base'
+        Text2text model from HuggingFace.
+    prompt: str, optional
+        You can specify the prompt which will be used to prompt the model.
+        Use placeholders to indicate where the class labels and the
+        data should be placed in the prompt.
+    max_new_tokens: int, default 256
+        Maximum number of tokens the model should generate.
+    fuzzy_match: bool, default True
+        Indicates whether the output lables should be fuzzy matched
+        to the learnt class labels.
+        This is useful when the model isn't giving specific enough answers.
+    progress_bar: bool, default True
+        Indicates whether a progress bar should be shown.
+    device: str, default 'cpu'
+        Indicates which device should be used for classification.
+        Models are by default run on CPU.
+
+    Attributes
+    ----------
+    classes_: array of str
+        Class names learned from the labels.
+    """
+
     def __init__(
         self,
         model_name: str = "google/flan-t5-base",

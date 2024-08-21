@@ -2,11 +2,31 @@ import os
 
 import openai
 
-from stormtrooper.chat import (ChatClassifier, default_prompt,
-                               default_system_prompt)
+from stormtrooper.chat import ChatClassifier, default_prompt, default_system_prompt
 
 
 class OpenAIClassifier(ChatClassifier):
+    """Use OpenAI's models for zero and few-shot text classification.
+
+    Parameters
+    ----------
+    model_name: str, default "gpt-3.5-turbo"
+        Name of the OpenAI chat model to use.
+    temperature: float, default 1.0
+        Temperature for text generation.
+        Higher temperature results in more diverse answers.
+    prompt: str
+        Prompt template to use for each text.
+    system_prompt: str
+        System prompt for the model.
+    max_new_tokens: int, default 256
+        Maximum number of new tokens to generate.
+    fuzzy_match: bool, default True
+        Indicates whether responses should be fuzzy-matched to closest learned label.
+    progress_bar: bool, default True
+        Inidicates whether a progress bar should be desplayed when obtaining results.
+    """
+
     def __init__(
         self,
         model_name: str = "gpt-3.5-turbo",
