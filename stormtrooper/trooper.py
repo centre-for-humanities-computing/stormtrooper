@@ -62,14 +62,18 @@ def get_model_type(model_name: str) -> str:
             return "nli"
         else:
             return "setfit"
-    except Exception as e:
+    except OSError as e:
         try:
-            model = OpenAIClassifier(model_name)
-            return "openai"
-        except (KeyError, ValueError) as e2:
-            raise ValueError(
-                f"Model {model_name} cannot be found in HuggingFace repositories, nor could an OpenAI model be initialized."
-            ) from e2
+            config = AutoConfig.from_pretrained("sentence-transformers/" + model_name)
+            return "setfit"
+        except OSError as e:
+            try:
+                model = OpenAIClassifier(model_name)
+                return "openai"
+            except (KeyError, ValueError) as e2:
+                raise ValueError(
+                    f"Model {model_name} cannot be found in HuggingFace repositories, nor could an OpenAI model be initialized."
+                ) from e2
 
 
 class Trooper(BaseEstimator, ClassifierMixin):
