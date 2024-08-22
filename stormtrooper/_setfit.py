@@ -15,7 +15,7 @@ def generate_positive_pairs(texts, labels) -> Iterable[tuple[str, str]]:
     for text, label in zip(texts, labels):
         label_to_texts[label].append(text)
     for _, texts in label_to_texts.items():
-        for anchor, positive in itertools.combinations(texts, 2):
+        for anchor, positive in itertools.combinations_with_replacement(texts, 2):
             yield anchor, positive
 
 
