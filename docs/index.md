@@ -6,13 +6,9 @@ Stormtrooper is a lightweight Python library for zero and few-shot classificatio
 You can install stormtrooper from PyPI.
 
 ```
-pip install stormtrooper[torch]
+pip install stormtrooper
 ```
 
-If you intend to use SetFit models as well, install stormtrooper with optional dependencies.
-
-```
-pip install stormtrooper[setfit]
 ```
 
 From version 0.4.0 you can also use OpenAI models in stormtrooper.
@@ -111,7 +107,7 @@ As such, you have to put templated names in brackets.
 To run models locally on a GPU, you can use the `device` attribute of stormtrooper models.
 
 ```python
-model = Trooper("sentence-transformers/all-MiniLM-L6-v2", device="cuda")
+model = Trooper("all-MiniLM-L6-v2", device="cuda")
 ```
 
 ## API Reference

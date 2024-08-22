@@ -61,12 +61,10 @@ It involves:
 
 When you load any encoder-style model in Stormtrooper, they are automatically converted into a SetFit model.
 
-> You have to `pip install setfit` for this to work.
-
 ```python
 from stormtrooper import Trooper
 
-model = Trooper("sentence-transformers/all-MiniLM-L6-v2")
+model = Trooper("all-MiniLM-L6-v2")
 ```
 
 ::: stormtrooper.set_fit.SetFitClassifier
