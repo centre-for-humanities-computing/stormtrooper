@@ -1,9 +1,12 @@
 """Zero shot classification with generative language models."""
 
+from typing import Optional
+
 import numpy as np
 from transformers import pipeline
 
-from stormtrooper.chat import ChatClassifier, default_prompt, default_system_prompt
+from stormtrooper.chat import (ChatClassifier, default_prompt,
+                               default_system_prompt)
 
 __all__ = ["GenerativeClassifier"]
 
@@ -30,9 +33,11 @@ class GenerativeClassifier(ChatClassifier):
         This is useful when the model isn't giving specific enough answers.
     progress_bar: bool, default True
         Indicates whether a progress bar should be shown.
-    device: str, default 'cpu'
+    device: str, default None
         Indicates which device should be used for classification.
         Models are by default run on CPU.
+    device_map: str, default None
+        Device map argument for very large models.
 
     Attributes
     ----------
@@ -48,13 +53,20 @@ class GenerativeClassifier(ChatClassifier):
         max_new_tokens: int = 256,
         fuzzy_match: bool = True,
         progress_bar: bool = True,
-        device: str = "cpu",
+        device: Optional[str] = None,
+        device_map: Optional[str] = None,
     ):
         self.model_name = model_name
         self.prompt = prompt
         self.device = device
         self.system_prompt = system_prompt
-        self.pipeline = pipeline("text-generation", self.model_name, device=self.device)
+        self.device_map = device_map
+        self.pipeline = pipeline(
+            "text-generation",
+            self.model_name,
+            device=self.device,
+            device_map=self.device_map,
+        )
         self.classes_ = None
         self.max_new_tokens = max_new_tokens
         self.fuzzy_match = fuzzy_match
@@ -62,8 +74,8 @@ class GenerativeClassifier(ChatClassifier):
 
     def predict_one(self, text: str) -> np.ndarray:
         messages = self.generate_messages(text)
-        response = self.pipeline(messages, max_new_tokens=self.max_new_tokens)[0][
-            "generated_text"
-        ][-1]
+        response = self.pipeline(messages, max_new_tokens=self.max_new_tokens)[
+            0
+        ]["generated_text"][-1]
         label = response["content"]
         return label

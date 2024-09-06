@@ -6,8 +6,7 @@ from transformers import AutoConfig
 from transformers.models.auto.modeling_auto import (
     MODEL_FOR_CAUSAL_LM_MAPPING_NAMES,
     MODEL_FOR_SEQ_TO_SEQ_CAUSAL_LM_MAPPING_NAMES,
-    MODEL_FOR_SEQUENCE_CLASSIFICATION_MAPPING_NAMES,
-)
+    MODEL_FOR_SEQUENCE_CLASSIFICATION_MAPPING_NAMES)
 
 from stormtrooper.error import NotInstalled
 from stormtrooper.generative import GenerativeClassifier
@@ -23,7 +22,10 @@ except ModuleNotFoundError:
 
 def is_text2text(config) -> bool:
     for architecture in config.architectures:
-        if architecture in MODEL_FOR_SEQ_TO_SEQ_CAUSAL_LM_MAPPING_NAMES.values():
+        if (
+            architecture
+            in MODEL_FOR_SEQ_TO_SEQ_CAUSAL_LM_MAPPING_NAMES.values()
+        ):
             return True
     return False
 
@@ -37,7 +39,10 @@ def is_generative(config) -> bool:
 
 def is_nli(config) -> bool:
     for architecture in config.architectures:
-        if architecture in MODEL_FOR_SEQUENCE_CLASSIFICATION_MAPPING_NAMES.values():
+        if (
+            architecture
+            in MODEL_FOR_SEQUENCE_CLASSIFICATION_MAPPING_NAMES.values()
+        ):
             return True
     return False
 
@@ -64,7 +69,9 @@ def get_model_type(model_name: str) -> str:
             return "setfit"
     except OSError as e:
         try:
-            config = AutoConfig.from_pretrained("sentence-transformers/" + model_name)
+            config = AutoConfig.from_pretrained(
+                "sentence-transformers/" + model_name
+            )
             return "setfit"
         except OSError as e:
             try:
@@ -87,8 +94,10 @@ class Trooper(BaseEstimator, ClassifierMixin):
         Could be a model from OpenAI or HuggingFace Hub.
     progress_bar: bool, default True
         Indicates whether a progress bar should be displayed during inference.
-    device: str, default "cpu"
+    device: str, default None
         The device the model should run on (only valid for locally run models).
+    device_map: str, default None
+        Device map argument for very large models.
     prompt: str, default None
         Prompt to use for promptable models.
     system_prompt: str, default None
@@ -103,7 +112,8 @@ class Trooper(BaseEstimator, ClassifierMixin):
         model_name: str,
         *,
         progress_bar: bool = True,
-        device: str = "cpu",
+        device: Optional[str] = None,
+        device_map: Optional[str] = None,
         prompt: Optional[str] = None,
         system_prompt: Optional[str] = None,
         fuzzy_match: bool = True,
@@ -120,10 +130,14 @@ class Trooper(BaseEstimator, ClassifierMixin):
             model_kwargs["fuzzy_match"] = self.fuzzy_match
             if self.prompt is not None:
                 model_kwargs["prompt"] = self.prompt
-            if (self.model_type == "text2text") and self.system_prompt is not None:
+            if (
+                self.model_type == "text2text"
+            ) and self.system_prompt is not None:
                 model_kwargs["system_prompt"] = self.system_prompt
         if self.model_type in ["generative", "text2text", "nli", "setfit"]:
             model_kwargs["device"] = self.device
+        if self.model_type in ["generative", "text2text"]:
+            model_kwargs["device_map"] = self.device_map
         if self.model_type in ["nli", "generative", "text2text", "openai"]:
             model_kwargs["progress_bar"] = self.progress_bar
         self.model = model_type_to_cls[self.model_type](**model_kwargs)

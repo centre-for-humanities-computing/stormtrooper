@@ -1,5 +1,7 @@
 """Zero shot classification with text-to-text language models."""
 
+from typing import Optional
+
 from transformers import pipeline
 
 from stormtrooper.chat import ChatClassifier, default_prompt
@@ -27,9 +29,12 @@ class Text2TextClassifier(ChatClassifier):
         This is useful when the model isn't giving specific enough answers.
     progress_bar: bool, default True
         Indicates whether a progress bar should be shown.
-    device: str, default 'cpu'
+    device: str, default None
         Indicates which device should be used for classification.
         Models are by default run on CPU.
+    device_map: str, default None
+        Device map argument for very large models.
+
 
     Attributes
     ----------
@@ -44,13 +49,18 @@ class Text2TextClassifier(ChatClassifier):
         max_new_tokens: int = 256,
         fuzzy_match: bool = True,
         progress_bar: bool = True,
-        device: str = "cpu",
+        device: Optional[str] = None,
+        device_map: Optional[str] = None,
     ):
         self.model_name = model_name
         self.prompt = prompt
         self.device = device
+        self.device_map = device_map
         self.pipeline = pipeline(
-            "text2text-generation", model=model_name, device=device
+            "text2text-generation",
+            model=model_name,
+            device=device,
+            device_map=device_map,
         )
         self.classes_ = None
         self.progress_bar = progress_bar
