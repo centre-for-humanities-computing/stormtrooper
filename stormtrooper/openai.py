@@ -1,8 +1,14 @@
+import asyncio
 import os
+from typing import Iterable
 
+import numpy as np
 import openai
+from sklearn.exceptions import NotFittedError
+from tqdm import tqdm
 
-from stormtrooper.chat import ChatClassifier, default_prompt, default_system_prompt
+from stormtrooper.chat import (ChatClassifier, default_prompt,
+                               default_system_prompt)
 
 
 class OpenAIClassifier(ChatClassifier):
@@ -50,17 +56,49 @@ class OpenAIClassifier(ChatClassifier):
             client = openai.OpenAI(api_key=openai.api_key)
             valid_model_ids = [model.id for model in client.models.list()]
             if model_name not in valid_model_ids:
-                raise ValueError(f"{model_name} is not a valid model ID for OpenAI.")
+                raise ValueError(
+                    f"{model_name} is not a valid model ID for OpenAI."
+                )
         except KeyError as e:
-            raise KeyError("Environment variable OPENAI_API_KEY not specified.") from e
-        self.client = openai.OpenAI()
+            raise KeyError(
+                "Environment variable OPENAI_API_KEY not specified."
+            ) from e
+        self.client = openai.AsyncOpenAI()
 
-    def predict_one(self, text: str) -> str:
+    async def predict_one_async(self, text: str) -> str:
         messages = self.generate_messages(text)
-        response = self.client.chat.completions.create(
+        response = await self.client.chat.completions.create(
             messages=messages,
             model=self.model_name,
             temperature=self.temperature,
             max_tokens=self.max_new_tokens,
         )
         return response.choices[0].message.content
+
+    def predict_one(self, text: str) -> str:
+        return asyncio.run(self.predict_one_async(text))
+
+    async def predict_async(self, X: Iterable[str]) -> np.ndarray:
+        if self.classes_ is None:
+            raise NotFittedError(
+                "Class labels have not been collected yet, please fit."
+            )
+        if self.progress_bar:
+            X = tqdm(X)
+        res = await asyncio.gather(*[self.predict_one_async(x) for x in X])
+        return np.array(res)
+
+    def predict(self, X: Iterable[str]) -> np.ndarray:
+        """Predicts most probable class label for given texts.
+
+        Parameters
+        ----------
+        X: iterable of str
+            Texts to label.
+
+        Returns
+        -------
+        array of shape (n_texts)
+            Array of string class labels.
+        """
+        return asyncio.run(self.predict_async(X))
