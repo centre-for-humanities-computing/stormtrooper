@@ -9,12 +9,9 @@ You can install stormtrooper from PyPI.
 pip install stormtrooper
 ```
 
-```
-
 From version 0.4.0 you can also use OpenAI models in stormtrooper.
 
 ```
-pip install stormtrooper[openai]
 export OPENAI_API_KEY="sk-..."
 ```
 
@@ -41,7 +38,6 @@ example_texts = [
 model = Trooper("google/flan-t5-base").fit(None, class_labels)
 predictions = model.predict(example_texts)
 ```
-
 ### Zero-shot classification
 
 When you don't have access to labelled data, but need to classify textual data, zero-shot classification is a good option.
@@ -108,6 +104,16 @@ To run models locally on a GPU, you can use the `device` attribute of stormtroop
 
 ```python
 model = Trooper("all-MiniLM-L6-v2", device="cuda")
+
+```
+
+### Inference on multiple GPUs
+
+You can run a model on multiple devices in order of device priority `GPU -> CPU + Ram -> Disk` and on multiple devices by using the `device_map` argument.
+Note that this only works with text2text and generative models.
+
+```
+model = Trooper("HuggingFaceH4/zephyr-7b-beta", device_map="auto")
 ```
 
 ## API Reference

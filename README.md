@@ -114,3 +114,12 @@ You can specify the device when initializing a model:
 ```python
 classifier = Trooper("all-MiniLM-L6-v2", device="cuda:0")
 ```
+
+### Inference on multiple GPUs
+
+You can run a model on multiple devices in order of device priority `GPU -> CPU + Ram -> Disk` and on multiple devices by using the `device_map` argument.
+Note that this only works with text2text and generative models.
+
+```
+model = Trooper("HuggingFaceH4/zephyr-7b-beta", device_map="auto")
+```
