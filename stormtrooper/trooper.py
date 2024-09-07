@@ -121,6 +121,7 @@ class Trooper(BaseEstimator, ClassifierMixin):
         self.model_name = model_name
         self.model_type = get_model_type(model_name)
         self.progress_bar = progress_bar
+        self.device_map = device_map
         self.device = device
         self.prompt = prompt
         self.system_prompt = system_prompt
