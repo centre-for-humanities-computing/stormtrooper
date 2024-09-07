@@ -37,27 +37,8 @@ model.fit(None, ["dog", "cat"])
 
 # This is a few-shot model
 model.fit(["he was a good boy", "just lay down on my laptop"], ["dog", "cat"])
+
 ```
-
-## New in 0.5.0
-
-stormtrooper now uses chat templates from HuggingFace transformers for generative models.
-This means that you no longer have to pass model-specific prompt templates to these and can define system and user prompts separately.
-
-```python
-from stormtrooper import GenerativeClassifier
-
-system_prompt = "You're a helpful assistant."
-user_prompt = """
-Classify a text into one of the following categories: {classes}
-Text to clasify:
-"{X}"
-"""
-
-model = GenerativeClassifier().fit(None, ["political", "not political"])
-model.predict("Joe Biden is no longer the candidate of the Democrats.")
-```
-
 ## Model types
 
 You can use all sorts of transformer models for few and zero-shot classification in Stormtrooper.
@@ -73,7 +54,7 @@ You can use all sorts of transformer models for few and zero-shot classification
 Find more in our [docs](https://centre-for-humanities-computing.github.io/stormtrooper/).
 
 ```bash
-pip install stormtrooper[torch]
+pip install stormtrooper
 ```
 
 ```python
