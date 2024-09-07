@@ -105,6 +105,10 @@ class Trooper(BaseEstimator, ClassifierMixin):
     fuzzy_match: bool, default True
         Indicates whether responses should be fuzzy matched to the closest class name,
         when using a generative model.
+        This is useful, as large language models sometimes misspell words or capitalize them
+        when responding to queries.
+        With fuzzy matching you can rest assured that you will only get responses exactly
+        matching target labels.
     """
 
     def __init__(
