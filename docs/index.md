@@ -116,6 +116,18 @@ Note that this only works with text2text and generative models.
 model = Trooper("HuggingFaceH4/zephyr-7b-beta", device_map="auto")
 ```
 
-## API Reference
+## Trooper Interface
+
+The `Trooper` class wraps all zero and few-shot classifier models in stormtrooper
+and automatically detects what type the given model is.
+
+This is determined based on the following order of preference:
+
+<figure>
+  <img src="./_static/trooper_priority_order.png" width="60%" style="margin-left: auto;margin-right: auto;">
+  <figcaption>This is how models get loaded with the Trooper interface</figcaption>
+</figure>
+
+### API Reference
 
 ::: stormtrooper.trooper.Trooper
