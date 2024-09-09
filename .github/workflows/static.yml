@@ -23,7 +23,7 @@ jobs:
       - name: Dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install "stormtrooper[docs,openai]"
+          pip install "stormtrooper[docs]"
 
       - name: Build and Deploy
         if: github.event_name == 'push'
