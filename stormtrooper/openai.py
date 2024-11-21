@@ -76,7 +76,10 @@ class OpenAIClassifier(ChatClassifier):
         return response.choices[0].message.content
 
     def predict_one(self, text: str) -> str:
-        return asyncio.run(self.predict_one_async(text))
+        label = asyncio.run(self.predict_one_async(text))
+        if self.fuzzy_match:
+            label = self.fuzzy_match_label(label)
+        return label
 
     async def predict_async(self, X: Iterable[str]) -> np.ndarray:
         if self.classes_ is None:
@@ -101,4 +104,7 @@ class OpenAIClassifier(ChatClassifier):
         array of shape (n_texts)
             Array of string class labels.
         """
-        return asyncio.run(self.predict_async(X))
+        labels = asyncio.run(self.predict_async(X))
+        if self.fuzzy_match:
+            labels = [self.fuzzy_match_label(label) for label in labels]
+        return labels
