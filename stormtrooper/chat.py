@@ -68,9 +68,16 @@ class ChatClassifier(BaseEstimator, ClassifierMixin, ABC):
         self.n_classes = len(self.classes_)
         return self
 
+    def fuzzy_match_label(self, label: str) -> str:
+        if label not in self.classes_:
+            label, _ = process.extractOne(label, self.classes_)
+        return label
+
     def get_user_prompt(self, text: str) -> str:
         if getattr(self, "classes_", None) is None:
-            raise NotFittedError("No class labels have been learnt yet, fit the model.")
+            raise NotFittedError(
+                "No class labels have been learnt yet, fit the model."
+            )
         if getattr(self, "examples_", None) is not None:
             text_examples = []
             for label, examples in self.examples_.items():
